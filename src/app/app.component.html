@@ -18,6 +18,12 @@
   </mat-menu>
 </mat-toolbar>
 
+<div fxLayout="row" fxLayoutGap="8px">
+  <div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px">{{th.name}}</div>
+</div>
+<div *ngFor="let w of works" fxLayout="row" fxLayoutGap="8px">
+<div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px" [innerHTML]="w[th.key]"></div>
+</div>
 <form class="example-form">
   <mat-form-field class="example-full-width">
     <input matInput placeholder="Favorite food" value="Sushi">

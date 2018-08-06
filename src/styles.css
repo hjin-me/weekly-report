@@ -35,3 +35,6 @@
   font-feature-settings: 'liga';
 }
 /* stylelint-enable */
+body {
+  margin: 0;
+}

@@ -95,23 +95,11 @@
     "@angular-devkit/core" "0.7.2"
     rxjs "^6.0.0"
 
-"@angular/animations@^6.1.1":
-  version "6.1.1"
-  resolved "http://registry.npm.taobao.org/@angular/animations/download/@angular/animations-6.1.1.tgz#aea467f84e4344601bcb3c00929be4efe86d3606"
-  dependencies:
-    tslib "^1.9.0"
-
 "@angular/animations@angular/animations-builds":
   version "7.0.0-beta.0"
   resolved "https://codeload.github.com/angular/animations-builds/tar.gz/9f1b4fd096683d58d70168eb3e648d80bf4cba97"
   dependencies:
     tslib "^1.9.0"
-
-"@angular/cdk@^6.4.2":
-  version "6.4.2"
-  resolved "http://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-6.4.2.tgz#e623cdbbe6258980b0fa93beafce0ea7c4e2c17b"
-  dependencies:
-    tslib "^1.7.1"
 
 "@angular/cdk@angular/cdk-builds":
   version "6.4.2-1e1751f"
@@ -161,6 +149,12 @@
   dependencies:
     tslib "^1.9.0"
 
+"@angular/flex-layout@^6.0.0-beta.17":
+  version "6.0.0-beta.17"
+  resolved "http://registry.npm.taobao.org/@angular/flex-layout/download/@angular/flex-layout-6.0.0-beta.17.tgz#26a0ead768ac45d955501a1259f51f4451e8d4db"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/forms@^6.1.0":
   version "6.1.1"
   resolved "http://registry.npm.taobao.org/@angular/forms/download/@angular/forms-6.1.1.tgz#41aec34576d4e3fed5791b65dc6d638d180cd11e"
@@ -176,14 +170,6 @@
 "@angular/language-service@^6.1.0":
   version "6.1.1"
   resolved "http://registry.npm.taobao.org/@angular/language-service/download/@angular/language-service-6.1.1.tgz#131a320be957a02dcf710d9242bd8e43b7c24c3c"
-
-"@angular/material@^6.4.2":
-  version "6.4.2"
-  resolved "http://registry.npm.taobao.org/@angular/material/download/@angular/material-6.4.2.tgz#f39529d56bad97f0470b886c3f30591b9d3a7d05"
-  dependencies:
-    tslib "^1.7.1"
-  optionalDependencies:
-    parse5 "^5.0.0"
 
 "@angular/material@angular/material2-builds":
   version "6.4.2-1e1751f"
