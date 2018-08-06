@@ -1,0 +1,7 @@
+{
+  "@hjin/generator-app": {
+    "appName": "weekly-report",
+    "version": "2.0.0",
+    "dockerRepository": "registry.cn-beijing.aliyuncs.com/hj/weekly-report"
+  }
+}
