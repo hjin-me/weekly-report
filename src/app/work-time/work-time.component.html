@@ -1,0 +1,5 @@
+<div class="flex">
+  <mat-form-field class="col example-full-width" *ngFor="let title of weekTitle; index as i">
+    <input matInput type="number" step="1" min="0" max="24" [placeholder]="title" [value]="value[i]" (input)="timeChange(i, $event.target.value)">
+  </mat-form-field>
+</div>

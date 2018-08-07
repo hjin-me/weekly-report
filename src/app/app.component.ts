@@ -9,12 +9,12 @@ export class AppComponent {
   title = 'weekly-report';
   head = [
     {
-      name: '项目编号',
+      name: '',
       key: 'project',
       span: 4
     },
     {
-      name: '工作内容',
+      name: '',
       key: 'work',
       span: 6
     },
@@ -24,7 +24,7 @@ export class AppComponent {
       span: 8
     },
     {
-      name: '问题',
+      name: '',
       key: 'problem',
       span: 6
     }

@@ -13,9 +13,10 @@ import {
   MatToolbarModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { WorkTimeComponent } from './work-time/work-time.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, WorkTimeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

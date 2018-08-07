@@ -40,6 +40,7 @@
         <textarea matInput placeholder="遇到的问题" [(ngModel)]="w.problem" mat-autosize="true">
         </textarea>
         </mat-form-field>
+        <app-work-time *ngSwitchCase="'time'" [(value)]="w.time" [year]="2017" [week]="1"></app-work-time>
         <div *ngSwitchDefault>
           {{ w[th.key] }}
         </div>
