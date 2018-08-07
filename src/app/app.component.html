@@ -18,14 +18,36 @@
   </mat-menu>
 </mat-toolbar>
 
-<div fxLayout="row" fxLayoutGap="8px">
-  <div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px">{{th.name}}</div>
+<div style="margin: 10px 8px">
+  <div fxLayout="row" fxLayoutGap="8px">
+    <div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px">{{th.name}}</div>
+  </div>
+  <div *ngFor="let w of works" fxLayout="row" fxLayoutGap="8px">
+    <div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px">
+      <div [ngSwitch]="th.key">
+        <mat-form-field *ngSwitchCase="'project'" class="form-full-width">
+          <mat-select placeholder="项目编号" [(value)]="w.project">
+            <mat-option *ngFor="let p of projects" [value]="p.id">
+              {{p.name}}({{p.id}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngSwitchCase="'work'" class="form-full-width">
+        <textarea matInput placeholder="工作内容" [(ngModel)]="w.work" mat-autosize="true">
+        </textarea>
+        </mat-form-field>
+        <mat-form-field *ngSwitchCase="'problem'" class="form-full-width">
+        <textarea matInput placeholder="遇到的问题" [(ngModel)]="w.problem" mat-autosize="true">
+        </textarea>
+        </mat-form-field>
+        <div *ngSwitchDefault>
+          {{ w[th.key] }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <pre><code>
+ {{works | json}}
+</code></pre>
 </div>
-<div *ngFor="let w of works" fxLayout="row" fxLayoutGap="8px">
-<div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px" [innerHTML]="w[th.key]"></div>
-</div>
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Favorite food" value="Sushi">
-  </mat-form-field>
-</form>

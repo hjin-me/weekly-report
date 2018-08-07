@@ -49,8 +49,18 @@ export class AppComponent {
       work: '1234jkl123j4kl312j4kl32'
     }
   ];
-
-  value(root: object, key: string) {
-    return root[key];
-  }
+  projects = [
+    {
+      id: '123123123',
+      name: 'project A'
+    },
+    {
+      id: '223344',
+      name: 'ProjectB'
+    },
+    {
+      id: '335577',
+      name: 'C'
+    }
+  ];
 }
