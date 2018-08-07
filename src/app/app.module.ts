@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatButtonModule,
+  MatCardModule, MatDividerModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
@@ -27,7 +28,9 @@ import { WorkTimeComponent } from './work-time/work-time.component';
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCardModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

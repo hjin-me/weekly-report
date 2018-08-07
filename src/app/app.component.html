@@ -1,52 +1,85 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item>
       <mat-icon>dialpad</mat-icon>
-      <span>Redial</span>
+      <span>填写周报</span>
     </button>
     <button mat-menu-item disabled>
       <mat-icon>voicemail</mat-icon>
-      <span>Check voicemail</span>
+      <span>编辑项目</span>
     </button>
     <button mat-menu-item>
       <mat-icon>notifications_off</mat-icon>
-      <span>Disable alerts</span>
+      <span>查看统计报表</span>
     </button>
   </mat-menu>
 </mat-toolbar>
+<mat-card class="weekly-container">
+  <mat-card-header>
+    <mat-card-title>填写周报</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngFor="let w of works; last as l">
+      <div fxLayout="row" fxLayoutGap="8px" style="padding: 16px 0">
+        <div fxFlex="10 0 10px">
+          <div fxLayout="row" fxLayoutGap="8px">
+            <div fxFlex="6 0 10px">
+              <mat-form-field class="form-full-width">
+                <mat-select placeholder="项目编号" [(value)]="w.project">
+                  <mat-option *ngFor="let p of projects" [value]="p.id">
+                    {{p.name}}({{p.id}})
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="3 0 10px">
+              <mat-form-field class="form-full-width">
+                <mat-select placeholder="任务模块" [(value)]="w.project">
+                  <mat-option *ngFor="let p of projects" [value]="p.id">
+                    {{p.name}}({{p.id}})
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="3 0 10px">
+              <mat-form-field class="form-full-width">
+                <input matInput type="text" placeholder="需求人">
+              </mat-form-field>
+            </div>
+          </div>
 
-<div style="margin: 10px 8px">
-  <div fxLayout="row" fxLayoutGap="8px">
-    <div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px">{{th.name}}</div>
-  </div>
-  <div *ngFor="let w of works" fxLayout="row" fxLayoutGap="8px">
-    <div *ngFor="let th of head" fxFlex="{{th.span}} 0 10px">
-      <div [ngSwitch]="th.key">
-        <mat-form-field *ngSwitchCase="'project'" class="form-full-width">
-          <mat-select placeholder="项目编号" [(value)]="w.project">
-            <mat-option *ngFor="let p of projects" [value]="p.id">
-              {{p.name}}({{p.id}})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngSwitchCase="'work'" class="form-full-width">
+          <div style="padding-left: 60px">
+            <mat-form-field class="form-full-width">
         <textarea matInput placeholder="工作内容" [(ngModel)]="w.work" mat-autosize="true">
         </textarea>
-        </mat-form-field>
-        <mat-form-field *ngSwitchCase="'problem'" class="form-full-width">
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxFlex="8 0 10px">
+          <app-work-time [(value)]="w.time" [year]="2017" [week]="1"></app-work-time>
+          <div>
+            <mat-form-field class="form-full-width">
         <textarea matInput placeholder="遇到的问题" [(ngModel)]="w.problem" mat-autosize="true">
         </textarea>
-        </mat-form-field>
-        <app-work-time *ngSwitchCase="'time'" [(value)]="w.time" [year]="2017" [week]="1"></app-work-time>
-        <div *ngSwitchDefault>
-          {{ w[th.key] }}
+            </mat-form-field>
+          </div>
         </div>
       </div>
+      <mat-divider *ngIf="!l"></mat-divider>
     </div>
-  </div>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>提交</button>
+  </mat-card-actions>
+</mat-card>
+
+<div style="margin: 10px 8px">
+
 
   <pre><code>
  {{works | json}}
