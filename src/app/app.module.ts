@@ -18,14 +18,22 @@ import { FormsModule } from '@angular/forms';
 import { WorkTimeComponent } from './work-time/work-time.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PageWriteComponent } from './page-write/page-write.component';
+import { PageProjectComponent } from './page-project/page-project.component';
+import { NavComponent } from './nav/nav.component';
 
 const appRoutes: Routes = [
   { path: '', component: PageWriteComponent },
-  // { path: 'admin' }
+  { path: 'projects', component: PageProjectComponent }
 ];
 
 @NgModule({
-  declarations: [AppComponent, WorkTimeComponent, PageWriteComponent],
+  declarations: [
+    AppComponent,
+    WorkTimeComponent,
+    PageWriteComponent,
+    PageProjectComponent,
+    NavComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
