@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../project.service';
-import { Project, Work } from '../project';
+import { Project, Report, Work } from '../project';
+import { WeekService } from '../week.service';
+import { ReportService } from '../report.service';
 
 @Component({
   selector: 'app-page-write',
@@ -8,58 +10,31 @@ import { Project, Work } from '../project';
   styleUrls: ['./page-write.component.css']
 })
 export class PageWriteComponent implements OnInit {
-  head = [
-    {
-      name: '',
-      key: 'project',
-      span: 4
-    },
-    {
-      name: '',
-      key: 'work',
-      span: 6
-    },
-    {
-      name: '工时',
-      key: 'time',
-      span: 8
-    },
-    {
-      name: '',
-      key: 'problem',
-      span: 6
-    }
-  ];
-  works: Work[] = [
-    {
-      project: '',
-      problem: '',
-      time: [],
-      work: '',
-      task: '',
-      requester: ''
-    },
-    {
-      project: '',
-      problem: '',
-      time: [1, 2, 3, 4, 5],
-      work: '',
-      task: '',
-      requester: ''
-    },
-    {
-      project: '!2312312',
-      problem: '',
-      time: [],
-      work: '',
-      task: '',
-      requester: ''
-    }
-  ];
+  report: Report;
   projects: Project[] = [];
-  constructor(private projectService: ProjectService) {}
+
+  constructor(
+    private projectService: ProjectService,
+    private reportService: ReportService
+  ) {}
 
   ngOnInit() {
     this.projects = this.projectService.getProjects();
+    if (!this.report) {
+      this.report = this.reportService.create();
+    }
+    this.checkLastWork();
+  }
+
+  addWork() {}
+  checkLastWork() {
+    if (this.report.works.length === 0) {
+      this.report.works.push(this.reportService.createWork());
+      return;
+    }
+    const last = this.report.works[this.report.works.length - 1];
+    if (last.project) {
+      this.report.works.push(this.reportService.createWork());
+    }
   }
 }

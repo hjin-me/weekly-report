@@ -3,22 +3,22 @@
     <mat-card-title>填写周报</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let w of works; last as l">
+    <div *ngFor="let w of report.works; last as l">
       <div fxLayout="row" fxLayoutGap="8px" style="padding: 16px 0">
         <div fxFlex="10 0 10px">
           <div fxLayout="row" fxLayoutGap="8px">
             <div fxFlex="6 0 10px">
               <mat-form-field class="form-full-width">
-                <mat-select placeholder="项目编号" [(value)]="w.project">
-                  <mat-option *ngFor="let p of projects" [value]="p.id">
-                    {{p.name}}({{p.id}})
+                <mat-select placeholder="项目编号" [(value)]="w.project" (valueChange)="checkLastWork()">
+                  <mat-option *ngFor="let p of projects" [value]="p.id" [disabled]="p.id | projectExist:report.works">
+                    <b>{{p.name}}</b> ({{p.id}})
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div fxFlex="3 0 10px">
               <mat-form-field class="form-full-width">
-                <mat-select placeholder="任务模块" [(value)]="w.task">
+                <mat-select placeholder="任务模块" [(value)]="w.task" [disabled]="(w.project | task:projects).length === 0">
                   <mat-option *ngFor="let task of w.project | task:projects" [value]="task">
                     {{task}}
                   </mat-option>
@@ -27,24 +27,24 @@
             </div>
             <div fxFlex="3 0 10px">
               <mat-form-field class="form-full-width">
-                <input matInput type="text" placeholder="需求人">
+                <input matInput type="text" placeholder="需求人" [(ngModel)]="w.requester" [disabled]="!w.project">
               </mat-form-field>
             </div>
           </div>
 
           <div style="padding-left: 60px">
             <mat-form-field class="form-full-width">
-        <textarea matInput placeholder="工作内容" [(ngModel)]="w.work" mat-autosize="true">
+        <textarea matInput placeholder="工作内容" [(ngModel)]="w.work" mat-autosize="true" [disabled]="!w.project">
         </textarea>
             </mat-form-field>
           </div>
 
         </div>
         <div fxFlex="8 0 10px">
-          <app-work-time [(value)]="w.time" [year]="2017" [week]="1"></app-work-time>
+          <app-work-time [(value)]="w.time" [year]="2017" [week]="1" [disabled]="!w.project"></app-work-time>
           <div>
             <mat-form-field class="form-full-width">
-        <textarea matInput placeholder="遇到的问题" [(ngModel)]="w.problem" mat-autosize="true">
+        <textarea matInput placeholder="遇到的问题" [(ngModel)]="w.problem" mat-autosize="true" [disabled]="!w.project">
         </textarea>
             </mat-form-field>
           </div>
@@ -63,6 +63,6 @@
 
 
   <pre><code>
- {{works | json}}
+ {{report | json}}
 </code></pre>
 </div>

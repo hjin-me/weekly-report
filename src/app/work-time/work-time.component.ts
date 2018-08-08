@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as moment from 'moment';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
 
 @Component({
   selector: 'app-work-time',
@@ -14,6 +11,8 @@ export class WorkTimeComponent implements OnInit {
   @Output()
   valueChange = new EventEmitter<number[]>();
 
+  @Input()
+  disabled: boolean;
   @Input()
   year: number;
   @Input()
@@ -31,12 +30,7 @@ export class WorkTimeComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const d = moment()
-      .year(2017)
-      .week(1)
-      .day(1);
-    this.firstDay = d.toDate();
-    console.log(this.value);
+    console.log('disabled', this.disabled);
   }
 
   timeChange(index: number, v: number | string) {

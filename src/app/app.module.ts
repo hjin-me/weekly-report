@@ -21,6 +21,7 @@ import { PageWriteComponent } from './page-write/page-write.component';
 import { PageProjectComponent } from './page-project/page-project.component';
 import { NavComponent } from './nav/nav.component';
 import { TaskPipe } from './task.pipe';
+import { ProjectExistPipe } from './project-exist.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: PageWriteComponent },
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     PageWriteComponent,
     PageProjectComponent,
     NavComponent,
-    TaskPipe
+    TaskPipe,
+    ProjectExistPipe
   ],
   imports: [
     BrowserModule,
