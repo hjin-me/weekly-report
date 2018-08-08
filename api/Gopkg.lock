@@ -30,6 +30,26 @@
   version = "v1.1.0"
 
 [[projects]]
+  digest = "1:1f294dfdc4d7ceceb940ca3c2edeb6d41214eb80b15dbff3d032f18e820b3c3a"
+  name = "github.com/graphql-go/graphql"
+  packages = [
+    ".",
+    "gqlerrors",
+    "language/ast",
+    "language/kinds",
+    "language/lexer",
+    "language/location",
+    "language/parser",
+    "language/printer",
+    "language/source",
+    "language/typeInfo",
+    "language/visitor",
+  ]
+  pruneopts = "UT"
+  revision = "1e23489041ba90a66f317fe0deccb236a2fff3cb"
+  version = "v0.7.5"
+
+[[projects]]
   digest = "1:0b04cfd4f57653d676701ba4bb262cee4e830cf84a76c4069b11c8f47426a77e"
   name = "github.com/hjin-me/oublie"
   packages = ["api/logex"]
@@ -99,6 +119,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/gin-gonic/gin",
+    "github.com/graphql-go/graphql",
     "github.com/hjin-me/oublie/api/logex",
     "gopkg.in/ldap.v2",
   ]

@@ -41,3 +41,7 @@
 [[constraint]]
   name = "gopkg.in/ldap.v2"
   version = "2.5.1"
+
+[[constraint]]
+  name = "github.com/graphql-go/graphql"
+  version = "0.7.5"
