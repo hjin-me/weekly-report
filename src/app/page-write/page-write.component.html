@@ -18,9 +18,9 @@
             </div>
             <div fxFlex="3 0 10px">
               <mat-form-field class="form-full-width">
-                <mat-select placeholder="任务模块" [(value)]="w.project">
-                  <mat-option *ngFor="let p of projects" [value]="p.id">
-                    {{p.name}}({{p.id}})
+                <mat-select placeholder="任务模块" [(value)]="w.task">
+                  <mat-option *ngFor="let task of w.project | task:projects" [value]="task">
+                    {{task}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

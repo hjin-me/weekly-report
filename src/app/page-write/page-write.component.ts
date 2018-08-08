@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectService } from '../project.service';
+import { Project, Work } from '../project';
 
 @Component({
   selector: 'app-page-write',
@@ -28,41 +30,36 @@ export class PageWriteComponent implements OnInit {
       span: 6
     }
   ];
-  works = [
+  works: Work[] = [
     {
-      project: '!2312312',
-      problem: 'asdfjklasdfjlkasdjfklasjdlkf',
+      project: '',
+      problem: '',
+      time: [],
+      work: '',
+      task: '',
+      requester: ''
+    },
+    {
+      project: '',
+      problem: '',
       time: [1, 2, 3, 4, 5],
-      work: '1234jkl123j4kl312j4kl32'
+      work: '',
+      task: '',
+      requester: ''
     },
     {
       project: '!2312312',
-      problem: 'asdfjklasdfjlkasdjfklasjdlkf',
-      time: [1, 2, 3, 4, 5],
-      work: '1234jkl123j4kl312j4kl32'
-    },
-    {
-      project: '!2312312',
-      problem: 'asdfjklasdfjlkasdjfklasjdlkf',
-      time: [1, 2, 3, 4, 5],
-      work: '1234jkl123j4kl312j4kl32'
+      problem: '',
+      time: [],
+      work: '',
+      task: '',
+      requester: ''
     }
   ];
-  projects = [
-    {
-      id: '123123123',
-      name: 'project A'
-    },
-    {
-      id: '223344',
-      name: 'ProjectB'
-    },
-    {
-      id: '335577',
-      name: 'C'
-    }
-  ];
-  constructor() {}
+  projects: Project[] = [];
+  constructor(private projectService: ProjectService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.projects = this.projectService.getProjects();
+  }
 }

@@ -12,8 +12,8 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/hjin-me/oublie/api/logex"
 	"strings"
+  "github.com/hjin-me/weekly-report/api/logex"
 )
 
 var target = "http://127.0.0.1:4200/"

@@ -20,6 +20,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageWriteComponent } from './page-write/page-write.component';
 import { PageProjectComponent } from './page-project/page-project.component';
 import { NavComponent } from './nav/nav.component';
+import { TaskPipe } from './task.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: PageWriteComponent },
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     WorkTimeComponent,
     PageWriteComponent,
     PageProjectComponent,
-    NavComponent
+    NavComponent,
+    TaskPipe
   ],
   imports: [
     BrowserModule,
