@@ -23,7 +23,8 @@ import { NavComponent } from './nav/nav.component';
 import { TaskPipe } from './task.pipe';
 import { ProjectExistPipe } from './project-exist.pipe';
 import { PageLoginComponent } from './page-login/page-login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { SessionInterceptor } from './session.interceptor';
 
 const appRoutes: Routes = [
   { path: '', component: PageWriteComponent },
@@ -58,7 +59,13 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SessionInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

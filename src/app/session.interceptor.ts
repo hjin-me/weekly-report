@@ -1,4 +1,3 @@
-import '@insight/passport';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
