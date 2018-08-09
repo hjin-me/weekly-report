@@ -26,11 +26,11 @@ export class WorkTimeComponent implements OnInit {
     '周六',
     '周日'
   ];
-  firstDay: Date;
-  constructor() {}
+
+  constructor() {
+  }
 
   ngOnInit() {
-    console.log('disabled', this.disabled);
   }
 
   timeChange(index: number, v: number | string) {

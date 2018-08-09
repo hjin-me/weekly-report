@@ -27,9 +27,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SessionInterceptor } from './session.interceptor';
 
 const appRoutes: Routes = [
-  { path: '', component: PageWriteComponent },
+  { path: 'write', component: PageWriteComponent },
   { path: 'projects', component: PageProjectComponent },
-  { path: 'session/login', component: PageLoginComponent }
+  { path: 'session/login', component: PageLoginComponent },
+  { path: '**', redirectTo: 'write' }
 ];
 
 @NgModule({
