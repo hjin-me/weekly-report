@@ -1,0 +1,26 @@
+<form (ngSubmit)="login()">
+  <mat-card class="session-container">
+    <mat-card-header>
+      <div mat-card-avatar ><mat-icon>account_circle</mat-icon>
+      </div>
+      <mat-card-title>登录</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <mat-form-field class="form-full-width">
+          <input matInput type="text" placeholder="用户名" [(ngModel)]="inputName" name="name" >
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="form-full-width">
+          <input matInput type="password" placeholder="密码" [(ngModel)]="inputPwd" name="pwd">
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">登录</button>
+    </mat-card-actions>
+  </mat-card>
+
+</form>

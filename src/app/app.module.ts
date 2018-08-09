@@ -22,10 +22,13 @@ import { PageProjectComponent } from './page-project/page-project.component';
 import { NavComponent } from './nav/nav.component';
 import { TaskPipe } from './task.pipe';
 import { ProjectExistPipe } from './project-exist.pipe';
+import { PageLoginComponent } from './page-login/page-login.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: '', component: PageWriteComponent },
-  { path: 'projects', component: PageProjectComponent }
+  { path: 'projects', component: PageProjectComponent },
+  { path: 'session/login', component: PageLoginComponent }
 ];
 
 @NgModule({
@@ -36,7 +39,8 @@ const appRoutes: Routes = [
     PageProjectComponent,
     NavComponent,
     TaskPipe,
-    ProjectExistPipe
+    ProjectExistPipe,
+    PageLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,8 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     MatCardModule,
     MatDividerModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
