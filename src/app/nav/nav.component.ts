@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-nav',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  name: string;
 
-  constructor() { }
+  constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
+    this.name = this.sessionService.name;
   }
-
 }

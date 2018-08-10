@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../project.service';
-import { Project, Report, Work } from '../project';
-import { WeekService } from '../week.service';
+import { Project, Weekly } from '../project';
 import { ReportService } from '../report.service';
+import { SessionService } from '../session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-page-write',
@@ -10,15 +11,22 @@ import { ReportService } from '../report.service';
   styleUrls: ['./page-write.component.css']
 })
 export class PageWriteComponent implements OnInit {
-  report: Report;
+  report: Weekly;
   projects: Project[] = [];
 
   constructor(
     private projectService: ProjectService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private sessionService: SessionService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    if (!this.sessionService.token) {
+      setTimeout(() => {
+        this.router.navigateByUrl('/session/login');
+      }, 1000);
+    }
     this.projects = this.projectService.getProjects();
     if (!this.report) {
       this.report = this.reportService.create();
@@ -26,7 +34,6 @@ export class PageWriteComponent implements OnInit {
     this.checkLastWork();
   }
 
-  addWork() {}
   checkLastWork() {
     if (this.report.works.length === 0) {
       this.report.works.push(this.reportService.createWork());
@@ -36,5 +43,10 @@ export class PageWriteComponent implements OnInit {
     if (last.project) {
       this.report.works.push(this.reportService.createWork());
     }
+  }
+
+  submit() {
+    const report = JSON.parse(JSON.stringify(this.report));
+    this.reportService.save(report).subscribe(d => alert('success'));
   }
 }

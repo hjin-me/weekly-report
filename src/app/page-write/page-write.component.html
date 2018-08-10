@@ -4,7 +4,7 @@
   </mat-card-header>
   <mat-card-content>
     <div *ngFor="let w of report.works; last as l">
-      <div fxLayout="row" fxLayoutGap="8px" style="padding: 16px 0">
+      <div fxLayout="row" fxLayoutGap="8px" style="padding: 16px 0 0">
         <div fxFlex="10 0 10px">
           <div fxLayout="row" fxLayoutGap="8px">
             <div fxFlex="6 0 10px">
@@ -31,7 +31,15 @@
               </mat-form-field>
             </div>
           </div>
+        </div>
 
+        <div fxFlex="8 0 10px">
+          <app-work-time [(value)]="w.time" [year]="2017" [week]="1" [disabled]="!w.project"></app-work-time>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="8px" style="padding: 0 0 16px">
+        <div fxFlex="10 0 10px">
           <div style="padding-left: 60px">
             <mat-form-field class="form-full-width">
         <textarea matInput placeholder="工作内容" [(ngModel)]="w.work" mat-autosize="true" [disabled]="!w.project">
@@ -41,7 +49,6 @@
 
         </div>
         <div fxFlex="8 0 10px">
-          <app-work-time [(value)]="w.time" [year]="2017" [week]="1" [disabled]="!w.project"></app-work-time>
           <div>
             <mat-form-field class="form-full-width">
         <textarea matInput placeholder="遇到的问题" [(ngModel)]="w.problem" mat-autosize="true" [disabled]="!w.project">
@@ -55,14 +62,6 @@
 
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>提交</button>
+    <button mat-button (click)="submit()">提交</button>
   </mat-card-actions>
 </mat-card>
-
-<div style="margin: 10px 8px">
-
-
-  <pre><code>
- {{report | json}}
-</code></pre>
-</div>

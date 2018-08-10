@@ -7,7 +7,7 @@ export interface Reporter {
   name: string;
 }
 
-export interface Report {
+export interface Weekly {
   week: Week;
   reporter: Reporter;
   works: Work[];

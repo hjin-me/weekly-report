@@ -1,6 +1,6 @@
 {
   "schema": {
-    "file": "./src/schema.graphqls"
+    "file": "./src/graphql/schema.graphqls"
   },
 
   "endpoints": [

@@ -24,53 +24,32 @@ func Graph(c *gin.Context) {
   }
   logex.Debugf("current user is [%s]", userName)
 
-  // Schema
-  fields := graphql.Fields{
-    "authentication": &graphql.Field{
-      Type: types.AuthType,
-      Args: graphql.FieldConfigArgument{
-        "name": &graphql.ArgumentConfig{
-          Type: graphql.NewNonNull(graphql.String),
-        },
-        "pwd": &graphql.ArgumentConfig{
-          Type: graphql.NewNonNull(graphql.String),
-        },
-      },
-      Resolve: types.AuthResolver,
-    },
-    "hello": &graphql.Field{
-      Type: graphql.String,
-      Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-        return "world", nil
-      },
-    },
-  }
-  rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
-  schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
+  // mutation
+  schemaConfig := graphql.SchemaConfig{Query: rootQuery, Mutation: rootMutation}
   schema, err := graphql.NewSchema(schemaConfig)
   if err != nil {
-    logex.Warning("failed to create new schema, error: %v", err)
+    logex.Warningf("failed to create new schema, error: %v", err)
     c.AbortWithError(http.StatusInternalServerError, err)
     return
   }
 
   reqBody, err := ioutil.ReadAll(c.Request.Body)
   if err != nil {
-    logex.Warning("read request failed: %v", err)
+    logex.Warningf("read request failed: %v", err)
     c.AbortWithError(http.StatusBadRequest, err)
     return
   }
   var reqObj GraphReq
   err = json.Unmarshal(reqBody, &reqObj)
   if err != nil {
-    logex.Warning("request json illegal: %v", err)
+    logex.Warningf("request json illegal: %v", err)
     c.AbortWithError(http.StatusBadRequest, err)
     return
   }
 
   // Query
   params := graphql.Params{
-    Schema: schema,
+    Schema:         schema,
     RequestString:  reqObj.Query,
     VariableValues: reqObj.Variables,
     Context:        context.WithValue(context.Background(), "username", userName),

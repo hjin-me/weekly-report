@@ -1,0 +1,21 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+input Reporter {
+  name: String
+}
+input InputWeekly {
+  reporter: Reporter
+}
+type Weekly {
+  reporter: Reporter
+}
+
+type Query {
+  helllo: String
+}
+
+type Mutation {
+  saveWeekly(weekly: InputWeekly!) :Weekly
+}

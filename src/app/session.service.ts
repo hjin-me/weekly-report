@@ -16,7 +16,26 @@ export class SessionService {
   token: string;
   name: string;
   expire: number;
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      let info;
+      try {
+        info = JSON.parse(btoa((jwt + '').split('.')[1]));
+      } catch {
+        info = null;
+      }
+      if (info) {
+        const expire = info.exp - Math.round(Date.now() / 1000);
+        if (expire > 0) {
+          this.name = info.dsp;
+          this.token = jwt;
+          this.expire = expire;
+        }
+      }
+    }
+  }
 
   login(name: string, pwd: string): Observable<Credit> {
     return this.http
@@ -35,6 +54,7 @@ export class SessionService {
           this.token = auth.token;
           this.name = auth.name;
           this.expire = auth.expire;
+          localStorage.setItem('jwt', this.token);
           return auth;
         })
       );
