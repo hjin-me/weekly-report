@@ -1,8 +1,8 @@
 package types
 
 import (
+	"encoding/json"
 	"errors"
-	"github.com/gin-gonic/gin/json"
 	"github.com/graphql-go/graphql"
 	"github.com/hjin-me/weekly-report/api/db"
 	"github.com/hjin-me/weekly-report/api/logex"
