@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface Credit {
@@ -16,6 +16,7 @@ export class SessionService {
   token: string;
   name: string;
   expire: number;
+  nameObs = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {
     const jwt = localStorage.getItem('jwt');
@@ -30,6 +31,7 @@ export class SessionService {
         const expire = info.exp - Math.round(Date.now() / 1000);
         if (expire > 0) {
           this.name = info.dsp;
+          this.nameObs.next(this.name);
           this.token = jwt;
           this.expire = expire;
         }
@@ -53,6 +55,7 @@ export class SessionService {
           const auth = resp.data.authentication;
           this.token = auth.token;
           this.name = auth.name;
+          this.nameObs.next(this.name);
           this.expire = auth.expire;
           localStorage.setItem('jwt', this.token);
           return auth;

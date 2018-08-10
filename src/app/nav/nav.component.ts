@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../session.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -7,11 +8,11 @@ import { SessionService } from '../session.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  name: string;
+  name: Observable<string>;
 
   constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
-    this.name = this.sessionService.name;
+    this.name = this.sessionService.nameObs;
   }
 }

@@ -1,0 +1,86 @@
+projects:
+-
+  id: '1031601'
+  name: 'Insight1.0'
+  tasks: &cTasks
+  - '产品设计'
+  - '研发'
+  - '测试'
+  - '运营'
+-
+  id: '1031701'
+  name: 'Insight2.0+killbox'
+  tasks: *cTasks
+-
+  id: '1031801'
+  name: 'WiFi一体化'
+  tasks: *cTasks
+-
+  id: '1031802'
+  name: 'Agg2.0'
+  tasks: *cTasks
+-
+  id: '1221701'
+  name: 'S9'
+  tasks: *cTasks
+-
+  id: 'B030001'
+  name: '大数据服务基础运维和优化'
+  tasks: &cBaseTasks
+  - '基础运维'
+  - '基础研发'
+  - '安全能力'
+-
+  id: 'B030002'
+  name: '引擎日志回收服务'
+  tasks: *cBaseTasks
+-
+  id: 'B030003'
+  name: '特征分发服务'
+  tasks: *cBaseTasks
+-
+  id: 'B030004'
+  name: '基础数据获取能力运维'
+  tasks: *cBaseTasks
+-
+  id: 'B030005'
+  name: '大数据分析计算平台解决方案基础研发'
+  tasks: *cBaseTasks
+-
+  id: 'B030006'
+  name: '流式处理平台'
+  tasks: *cBaseTasks
+-
+  id: 'B030007'
+  name: '数据仓库和部分基础数据集市研发	'
+  tasks: *cBaseTasks
+-
+  id: 'B220001'
+  name: '情报分析能力提升研究'
+  tasks: *cBaseTasks
+-
+  id: 'X031801'
+  name: '产品/项目 调研分析'
+  tasks: &cPmTasks
+  - '技术研究'
+  - '商业研究'
+-
+  id: 'X031802'
+  name: '流量大数据架构和算法预研'
+  tasks: *cPmTasks
+-
+  id: 'X031803'
+  name: '算法预研和部署'
+  tasks: *cPmTasks
+-
+  id: 'X031804'
+  name: 'Darwin标签体系研发'
+  tasks: *cPmTasks
+-
+  id: 'X031805'
+  name: '大数据业务基础解决方案预研'
+  tasks: *cPmTasks
+-
+  id: 'X221801'
+  name: '新产品预研'
+  tasks: *cPmTasks
