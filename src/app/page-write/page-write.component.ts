@@ -31,6 +31,11 @@ export class PageWriteComponent implements OnInit {
     if (!this.report) {
       this.report = this.reportService.create();
     }
+    this.reportService.thisWeekReport().subscribe(report => {
+      this.report = report;
+      console.log(report);
+      // this.checkLastWork();
+    });
     this.checkLastWork();
   }
 

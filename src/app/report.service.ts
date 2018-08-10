@@ -9,8 +9,11 @@ import { SessionService } from './session.service';
   providedIn: 'root'
 })
 export class ReportService {
-  constructor(private weekService: WeekService, private sessionService: SessionService, private http: HttpClient) {
-  }
+  constructor(
+    private weekService: WeekService,
+    private sessionService: SessionService,
+    private http: HttpClient
+  ) {}
 
   create(date?: Date): Weekly {
     return {
@@ -45,5 +48,24 @@ export class ReportService {
         }
       })
       .pipe(map(resp => resp.data.saveWeekly));
+  }
+
+  thisWeekReport() {
+    const { year, week } = this.weekService.getWeekAndYear();
+    return this.http
+      .post<{ data: { weekly: Weekly } }>('/x/graph', {
+        query: `query Weekly($year: Int!, $week: Int!){
+	      weekly(year: $year, week: $week) {
+	        week {year, week},
+	        reporter {name},
+	        works {project, task, requester, problem, time, work}
+	      }
+      }`,
+        variables: {
+          year,
+          week
+        }
+      })
+      .pipe(map(resp => resp.data.weekly));
   }
 }

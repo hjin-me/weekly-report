@@ -14,7 +14,7 @@ var WeeklyType = graphql.NewObject(graphql.ObjectConfig{
       Type: ReporterType,
     },
     "works": &graphql.Field{
-      Type: graphql.NewNonNull(WorkType),
+      Type: graphql.NewNonNull(graphql.NewList(WorkType)),
     },
   },
 })
