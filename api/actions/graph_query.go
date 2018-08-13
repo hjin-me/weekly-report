@@ -33,6 +33,18 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: types.QueryWeeklyResolver,
 		},
+		"report": &graphql.Field{
+			Type: types.ReportType,
+			Args: graphql.FieldConfigArgument{
+				"year": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+				"week": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+			},
+			Resolve: types.QueryReportResolver,
+		},
 
 		"hello": &graphql.Field{
 			Type: graphql.String,
