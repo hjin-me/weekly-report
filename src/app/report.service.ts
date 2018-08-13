@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Weekly, Work } from './project';
+import { Report, Weekly, Work } from './project';
 import { WeekService } from './week.service';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -53,12 +53,15 @@ export class ReportService {
   thisWeekReport() {
     const { year, week } = this.weekService.getWeekAndYear();
     return this.http
-      .post<{ data: { weekly: Weekly } }>('/x/graph', {
-        query: `query Weekly($year: Int!, $week: Int!){
-	      weekly(year: $year, week: $week) {
-	        week {year, week},
-	        reporter {name},
-	        works {project, task, requester, problem, time, work}
+      .post<{
+        data: { report: { year: number; week: number; details: Report[] } };
+      }>('/x/graph', {
+        query: `query report($year: Int!, $week: Int!){
+	      report(year: $year, week: $week) {
+	        year, week,
+	        details {
+	          year, week, project, task, reporter, requester, time, info, team
+	        }
 	      }
       }`,
         variables: {
@@ -66,6 +69,6 @@ export class ReportService {
           week
         }
       })
-      .pipe(map(resp => resp.data.weekly));
+      .pipe(map(resp => resp.data.report));
   }
 }

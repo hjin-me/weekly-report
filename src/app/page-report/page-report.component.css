@@ -1,0 +1,27 @@
+.weekly-container {
+  width: 960px;
+  margin: 20px auto 40px;
+}
+
+.report-table {
+  width: 100%;
+  text-align: left;
+}
+
+.report-table th,
+.report-table td {
+  padding: 16px;
+}
+
+.report-table th {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.report-table td {
+  border-bottom: 1px solid lightgray;
+}
+
+.info {
+  max-width: 200px;
+}

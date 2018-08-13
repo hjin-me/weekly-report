@@ -25,3 +25,15 @@ export interface Week {
   year: number;
   week: number;
 }
+
+export interface Report {
+  year: number; // 年
+  week: number; // 第几周
+  project: string; // 项目 ID
+  team: string; // 所属小组
+  task: string; // 所属任务模块
+  reporter: string;
+  requester: string;
+  time: number;
+  info: string;
+}
