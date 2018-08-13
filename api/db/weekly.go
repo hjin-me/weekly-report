@@ -6,7 +6,7 @@ import (
 
 	"encoding/json"
 	"github.com/hjin-me/oublie/api/logex"
-	)
+)
 
 var once sync.Once
 var queryOneWeeklyStmt *sql.Stmt
@@ -15,27 +15,29 @@ func init() {
 	ensureWeeklyTable()
 	prepareQueryOneWeekly()
 }
+
 type Week struct {
-  Year int `json:"year"`
-  Week int `json:"week"`
+	Year int `json:"year"`
+	Week int `json:"week"`
 }
 type Work struct {
-  Project   string `json:"project"`
-  Task      string `json:"task"`
-  Requester string `json:"requester"`
-  Problem   string `json:"problem"`
-  Time      []int  `json:"time"`
-  Work      string `json:"work"`
+	Project   string `json:"project"`
+	Task      string `json:"task"`
+	Requester string `json:"requester"`
+	Problem   string `json:"problem"`
+	Time      []int  `json:"time"`
+	Work      string `json:"work"`
 }
 type Reporter struct {
-  Name string `json:"name"`
-  Team string `json:"team"`
+	Id   string `json:"-"`
+	Name string `json:"name"`
+	Team string `json:"team"`
 }
 
 type Weekly struct {
-  Week     Week     `json:"week"`     // 第几周
-  Works    []Work   `json:"works"`    // 工作内容
-  Reporter Reporter `json:"reporter"` // 周报汇报人
+	Week     Week     `json:"week"`     // 第几周
+	Works    []Work   `json:"works"`    // 工作内容
+	Reporter Reporter `json:"reporter"` // 周报汇报人
 }
 
 //func ValidateUser(openId string) bool {
@@ -123,7 +125,7 @@ func OverwriteWeekly(weekly Weekly) error {
     ON CONFLICT ("year", "week", "name") 
     DO UPDATE 
     SET "data" = EXCLUDED.data;
-  	`, weekly.Week.Year, weekly.Week.Week, weekly.Reporter.Name, data)
+  	`, weekly.Week.Year, weekly.Week.Week, weekly.Reporter.Id, data)
 	if err != nil {
 		logex.Infof("weekly is [%v]", weekly)
 		logex.Fatalf("insert weekly failed. [%v]", err)

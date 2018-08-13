@@ -34,6 +34,7 @@ func SaveWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
 		logex.Infof("permission deny. user is not exists [%v]", name)
 		return nil, err
 	}
+	weekly.Reporter.Id = u.Id
 	weekly.Reporter.Name = u.Name
 	weekly.Reporter.Team = u.Team
 
