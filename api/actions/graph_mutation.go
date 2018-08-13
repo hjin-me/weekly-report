@@ -17,5 +17,14 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: types.SaveWeeklyResolver,
 		},
+		"modifyTeam": &graphql.Field{
+			Type: graphql.String,
+			Args: graphql.FieldConfigArgument{
+				"team": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve:types.MutationTeamResolver,
+		},
 	},
 })

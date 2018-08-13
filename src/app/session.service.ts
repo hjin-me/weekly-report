@@ -4,7 +4,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface Credit {
+  id: string;
+  mail: string;
   name: string;
+  team: string;
   token: string;
   expire: number;
 }
@@ -13,6 +16,9 @@ interface Credit {
   providedIn: 'root'
 })
 export class SessionService {
+  id: string;
+  mail: string;
+  team: string;
   token: string;
   name: string;
   expire: number;
@@ -31,8 +37,11 @@ export class SessionService {
         const expire = info.exp - Math.round(Date.now() / 1000);
         if (expire > 0) {
           this.name = info.dsp;
-          this.nameObs.next(this.name);
+          this.nameObs.next(`${this.name} (${this.team})`);
           this.token = jwt;
+          this.mail = info.eml;
+          this.id = info.uid;
+          this.team = info.tem;
           this.expire = expire;
         }
       }
@@ -43,7 +52,9 @@ export class SessionService {
     return this.http
       .post<{ data: { authentication: Credit } }>('/x/graph', {
         query: `query Login($name: String!, $pwd: String!){
-	      authentication(name:$name, pwd:$pwd) {name, token, expire}
+	      authentication(name:$name, pwd:$pwd) {
+	        id, mail, name, team, token, expire
+	      }
       }`,
         variables: {
           name,
@@ -54,11 +65,31 @@ export class SessionService {
         map(resp => {
           const auth = resp.data.authentication;
           this.token = auth.token;
+          this.id = auth.id;
+          this.mail = auth.mail;
           this.name = auth.name;
-          this.nameObs.next(this.name);
+          this.team = auth.team || 'unknown';
+          this.nameObs.next(`${this.name} (${this.team})`);
           this.expire = auth.expire;
           localStorage.setItem('jwt', this.token);
           return auth;
+        })
+      );
+  }
+  fillTeamInfo(team: string) {
+    return this.http
+      .post<{ data: { modifyTeam: string } }>('/x/graph', {
+        query: `mutation ModifyTeam($team: String!) {
+          modifyTeam(team: $team)
+        }`,
+        variables: {
+          team
+        }
+      })
+      .pipe(
+        map(resp => {
+          this.team = resp.data.modifyTeam;
+          return this.team;
         })
       );
   }

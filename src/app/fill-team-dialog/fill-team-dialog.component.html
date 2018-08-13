@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Hi {{data.user}}</h1>
+<div mat-dialog-content>
+  <p>请输入你所在团队名称</p>
+  <mat-form-field>
+    <mat-select placeholder="团队名称" [(value)]="data.team">
+      <mat-option *ngFor="let t of teamList" [value]="t">
+        {{t}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.team" cdkFocusInitial>Ok</button>
+</div>

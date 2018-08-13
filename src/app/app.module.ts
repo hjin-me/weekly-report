@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatDividerModule,
   MatIconModule,
   MatInputModule,
@@ -26,6 +27,7 @@ import { PageLoginComponent } from './page-login/page-login.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SessionInterceptor } from './session.interceptor';
 import { PageReportComponent } from './page-report/page-report.component';
+import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.component';
 
 const appRoutes: Routes = [
   { path: 'write', component: PageWriteComponent },
@@ -45,8 +47,10 @@ const appRoutes: Routes = [
     TaskPipe,
     ProjectExistPipe,
     PageLoginComponent,
-    PageReportComponent
+    PageReportComponent,
+    FillTeamDialogComponent
   ],
+  entryComponents: [FillTeamDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -55,6 +59,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatMenuModule,
     MatButtonModule,
+    MatDialogModule,
     MatIconModule,
     MatSelectModule,
     FlexLayoutModule,
