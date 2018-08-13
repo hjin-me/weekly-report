@@ -18,7 +18,8 @@ export class ReportService {
   create(date?: Date): Weekly {
     return {
       reporter: {
-        name: this.sessionService.name
+        name: this.sessionService.name,
+        team: this.sessionService.team,
       },
       week: this.weekService.getWeekAndYear(date),
       works: []
@@ -37,7 +38,6 @@ export class ReportService {
   }
 
   save(weekly: Weekly) {
-    weekly.works = weekly.works.filter(w => !!w.project);
     return this.http
       .post<{ data: { saveWeekly: Weekly } }>('/x/graph', {
         query: `mutation SaveWeekly($weekly: WeeklyInput!){

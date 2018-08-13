@@ -86,3 +86,11 @@ func ModifyUserTeam(id, team string) error {
 	}
 	return err
 }
+
+func QueryUser(id string) (u User, err error) {
+  err = db.QueryRow(`select "id", "name", "team" from "c"."user" where id=$1`, id).Scan(&u.Id, &u.Name, &u.Team)
+  if err != nil {
+    logex.Warningf("query user failed. [%v]", err)
+  }
+  return u, err
+}

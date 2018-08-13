@@ -47,6 +47,7 @@ export class PageWriteComponent implements OnInit {
 
   submit() {
     const report = JSON.parse(JSON.stringify(this.report));
+    report.works = report.works.filter(w => !!w.project);
     this.reportService.save(report).subscribe(d => alert('success'));
   }
 }

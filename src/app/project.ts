@@ -5,6 +5,7 @@ export interface Project {
 }
 export interface Reporter {
   name: string;
+  team: string;
 }
 
 export interface Weekly {

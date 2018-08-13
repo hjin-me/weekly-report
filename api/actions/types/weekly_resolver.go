@@ -29,11 +29,13 @@ func SaveWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
 		logex.Infof("context username is empty")
 		return nil, errors.New("permission deny")
 	}
-
-	if weekly.Reporter.Name != name {
-		logex.Infof("permission deny. user not match [%v] != [%v]", name, weekly.Reporter.Name)
-		return nil, errors.New("permission deny")
+	u, err := db.QueryUser(name)
+	if err != nil {
+		logex.Infof("permission deny. user is not exists [%v]", name)
+		return nil, err
 	}
+	weekly.Reporter.Name = u.Name
+	weekly.Reporter.Team = u.Team
 
 	err = db.OverwriteWeekly(weekly)
 	if err != nil {

@@ -24,9 +24,9 @@ var WeeklyInput = graphql.NewInputObject(graphql.InputObjectConfig{
     "week": &graphql.InputObjectFieldConfig{
       Type: graphql.NewNonNull(WeekInput),
     },
-    "reporter": &graphql.InputObjectFieldConfig{
-      Type: ReporterInput,
-    },
+    //"reporter": &graphql.InputObjectFieldConfig{
+    //  Type: ReporterInput,
+    //},
     "works": &graphql.InputObjectFieldConfig{
       Type: graphql.NewNonNull(graphql.NewList(WorkInput)),
     },
