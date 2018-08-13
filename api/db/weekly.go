@@ -29,6 +29,7 @@ type Work struct {
 }
 type Reporter struct {
   Name string `json:"name"`
+  Team string `json:"team"`
 }
 
 type Weekly struct {

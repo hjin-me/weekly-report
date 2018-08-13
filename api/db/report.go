@@ -65,7 +65,7 @@ func QueryWeekReport(year, week int) (collections []ReportRow, err error) {
 				Week:      w.Week.Week,
 				Project:   task.Project,
 				Task:      task.Task,
-				Team:      "",
+				Team:      w.Reporter.Team,
 				Reporter:  w.Reporter.Name,
 				Requester: task.Requester,
 				Time:      sumTime(task.Time),

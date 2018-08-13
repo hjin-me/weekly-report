@@ -82,12 +82,18 @@ var ReporterType = graphql.NewObject(graphql.ObjectConfig{
     "name": &graphql.Field{
       Type: graphql.String,
     },
+    "team": &graphql.Field{
+      Type: graphql.String,
+    },
   },
 })
 var ReporterInput = graphql.NewInputObject(graphql.InputObjectConfig{
   Name: "ReporterInput",
   Fields: graphql.InputObjectConfigFieldMap{
     "name": &graphql.InputObjectFieldConfig{
+      Type: graphql.NewNonNull(graphql.String),
+    },
+    "team": &graphql.InputObjectFieldConfig{
       Type: graphql.String,
     },
   },
