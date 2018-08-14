@@ -2,13 +2,9 @@ package db
 
 import (
 	"database/sql"
-	"sync"
-
 	"encoding/json"
 	"github.com/hjin-me/oublie/api/logex"
 )
-
-var once sync.Once
 
 type Week struct {
 	Year int `json:"year"`
@@ -50,16 +46,6 @@ type Weekly struct {
 //	}
 //	return false
 //}
-func prepareQueryOneWeekly() {
-	once.Do(func() {
-		var err error
-		db := GetDB()
-		queryOneWeeklyStmt, err = db.Prepare(`select data from c.weekly where year=$1 and week=$2 and name=$3`)
-		if err != nil {
-			logex.Fatalf("sql prepare failed. [%v]", err)
-		}
-	})
-}
 
 func ensureWeeklyTable() {
 	db := GetDB()

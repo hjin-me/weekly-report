@@ -35,6 +35,14 @@ var queryReportStmt *sql.Stmt
 func init() {
 	ensureUserTable()
 	ensureWeeklyTable()
-	prepareQueryOneWeekly()
-	prepareQueryReport()
+	var err error
+	db := GetDB()
+	queryOneWeeklyStmt, err = db.Prepare(`select data from c.weekly where year=$1 and week=$2 and name=$3`)
+	if err != nil {
+		logex.Fatalf("sql prepare failed. [%v]", err)
+	}
+	queryReportStmt, err = db.Prepare(`select name, data from c.weekly where year=$1 and week=$2`)
+	if err != nil {
+		logex.Fatalf("sql prepare failed. [%v]", err)
+	}
 }

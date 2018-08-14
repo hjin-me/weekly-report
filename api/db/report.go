@@ -1,10 +1,9 @@
 package db
 
 import (
-		"encoding/json"
+	"encoding/json"
 	"github.com/hjin-me/weekly-report/api/logex"
 )
-
 
 type ReportRow struct {
 	Year      int     `json:"year"`
@@ -22,17 +21,6 @@ type Report struct {
 	Year    int         `json:"year"`
 	Week    int         `json:"week"`
 	Details []ReportRow `json:"details"`
-}
-
-func prepareQueryReport() {
-	once.Do(func() {
-		var err error
-		db := GetDB()
-		queryReportStmt, err = db.Prepare(`select name, data from c.weekly where year=$1 and week=$2`)
-		if err != nil {
-			logex.Fatalf("sql prepare failed. [%v]", err)
-		}
-	})
 }
 
 func QueryWeekReport(year, week int) (collections []ReportRow, err error) {
