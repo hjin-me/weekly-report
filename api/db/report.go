@@ -1,12 +1,10 @@
 package db
 
 import (
-	"database/sql"
-	"encoding/json"
+		"encoding/json"
 	"github.com/hjin-me/weekly-report/api/logex"
 )
 
-var queryReportStmt *sql.Stmt
 
 type ReportRow struct {
 	Year      int     `json:"year"`
@@ -35,9 +33,6 @@ func prepareQueryReport() {
 			logex.Fatalf("sql prepare failed. [%v]", err)
 		}
 	})
-}
-func init() {
-	prepareQueryReport()
 }
 
 func QueryWeekReport(year, week int) (collections []ReportRow, err error) {

@@ -9,12 +9,6 @@ import (
 )
 
 var once sync.Once
-var queryOneWeeklyStmt *sql.Stmt
-
-func init() {
-	ensureWeeklyTable()
-	prepareQueryOneWeekly()
-}
 
 type Week struct {
 	Year int `json:"year"`

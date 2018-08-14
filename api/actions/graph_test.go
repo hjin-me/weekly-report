@@ -14,13 +14,13 @@ func TestGraph(t *testing.T) {
 	r.POST("/x/graph", Graph)
 
 	w := httptest.NewRecorder()
-  body := make(map[string]interface{})
-  body["query"] = `query {
+	body := make(map[string]interface{})
+	body["query"] = `query {
     authentication(name:"", pwd:"") {
       name, token, expire
     }
   }`
-  d, _ := json.Marshal(body)
+	d, _ := json.Marshal(body)
 	req, _ := http.NewRequest("POST", "/x/graph", bytes.NewBuffer(d))
 	r.ServeHTTP(w, req)
 	if w.Code != http.StatusOK {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../session.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav',
@@ -13,6 +14,16 @@ export class NavComponent implements OnInit {
   constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
-    this.name = this.sessionService.nameObs;
+    this.name = this.sessionService.session$.pipe(
+      map(s => {
+        if (s === false) {
+          return '';
+        }
+        if (typeof s !== 'boolean') {
+          return `${s.name} (${s.team})`;
+        }
+        return '';
+      })
+    );
   }
 }

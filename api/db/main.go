@@ -28,3 +28,13 @@ func GetDB() *sql.DB {
 	})
 	return db
 }
+
+var queryOneWeeklyStmt *sql.Stmt
+var queryReportStmt *sql.Stmt
+
+func init() {
+	ensureUserTable()
+	ensureWeeklyTable()
+	prepareQueryOneWeekly()
+	prepareQueryReport()
+}

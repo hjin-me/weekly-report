@@ -28,11 +28,24 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SessionInterceptor } from './session.interceptor';
 import { PageReportComponent } from './page-report/page-report.component';
 import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.component';
+import { PermissionGuard } from './permission.guard';
 
 const appRoutes: Routes = [
-  { path: 'write', component: PageWriteComponent },
-  { path: 'projects', component: PageProjectComponent },
-  { path: 'report', component: PageReportComponent },
+  {
+    path: 'write',
+    component: PageWriteComponent,
+    canActivate: [PermissionGuard]
+  },
+  {
+    path: 'projects',
+    component: PageProjectComponent,
+    canActivate: [PermissionGuard]
+  },
+  {
+    path: 'report',
+    component: PageReportComponent,
+    canActivate: [PermissionGuard]
+  },
   { path: 'session/login', component: PageLoginComponent },
   { path: '**', redirectTo: 'write' }
 ];

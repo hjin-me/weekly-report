@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 interface Credit {
   id: string;
@@ -15,37 +15,57 @@ interface Credit {
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService {
+export class SessionService implements Credit {
   id: string;
   mail: string;
   team: string;
   token: string;
   name: string;
   expire: number;
-  nameObs = new BehaviorSubject<string>('');
+  session$: BehaviorSubject<Credit | false> = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      let info;
-      try {
-        info = JSON.parse(btoa((jwt + '').split('.')[1]));
-      } catch {
-        info = null;
-      }
-      if (info) {
-        const expire = info.exp - Math.round(Date.now() / 1000);
-        if (expire > 0) {
-          this.name = info.dsp;
-          this.nameObs.next(`${this.name} (${this.team})`);
-          this.token = jwt;
-          this.mail = info.eml;
-          this.id = info.uid;
-          this.team = info.tem;
-          this.expire = expire;
-        }
-      }
+    if (!this.parseJWT()) {
+      this.session$.next(false);
     }
+  }
+  parseJWT() {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      return false;
+    }
+    let info;
+    try {
+      info = JSON.parse(decodeURIComponent(escape(atob( (jwt + '').split('.')[1] ))));
+    } catch {
+      info = null;
+    }
+    if (!info) {
+      return false;
+    }
+    const expire = info.exp - Math.round(Date.now() / 1000);
+    if (expire <= 0) {
+      return false;
+    }
+    this.name = info.dsp;
+    this.token = jwt;
+    this.mail = info.eml;
+    this.id = info.uid;
+    this.team = info.tem;
+    this.expire = expire;
+    this.obsEmit();
+    return true;
+  }
+
+  obsEmit() {
+    this.session$.next({
+      id: this.id,
+      mail: this.mail,
+      name: this.name,
+      team: this.team,
+      token: this.token,
+      expire: this.expire
+    });
   }
 
   login(name: string, pwd: string): Observable<Credit> {
@@ -69,13 +89,14 @@ export class SessionService {
           this.mail = auth.mail;
           this.name = auth.name;
           this.team = auth.team || 'unknown';
-          this.nameObs.next(`${this.name} (${this.team})`);
           this.expire = auth.expire;
           localStorage.setItem('jwt', this.token);
+          this.obsEmit();
           return auth;
         })
       );
   }
+
   fillTeamInfo(team: string) {
     return this.http
       .post<{ data: { modifyTeam: string } }>('/x/graph', {

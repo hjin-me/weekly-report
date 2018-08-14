@@ -24,7 +24,7 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
-			Resolve:types.MutationTeamResolver,
+			Resolve: types.MutationTeamResolver,
 		},
 	},
 })

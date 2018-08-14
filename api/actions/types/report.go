@@ -22,7 +22,7 @@ var ReportRowType = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"year":      &graphql.Field{Type: graphql.Int},
 		"week":      &graphql.Field{Type: graphql.Int},
-    "task":      &graphql.Field{Type: graphql.String},
+		"task":      &graphql.Field{Type: graphql.String},
 		"project":   &graphql.Field{Type: graphql.String},
 		"team":      &graphql.Field{Type: graphql.String},
 		"reporter":  &graphql.Field{Type: graphql.String},
@@ -31,4 +31,3 @@ var ReportRowType = graphql.NewObject(graphql.ObjectConfig{
 		"info":      &graphql.Field{Type: graphql.String},
 	},
 })
-

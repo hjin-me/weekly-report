@@ -11,10 +11,6 @@ type User struct {
 	Team string
 }
 
-func init() {
-	ensureUserTable()
-}
-
 func ensureUserTable() {
 	db := GetDB()
 	var fieldName string
@@ -88,9 +84,9 @@ func ModifyUserTeam(id, team string) error {
 }
 
 func QueryUser(id string) (u User, err error) {
-  err = db.QueryRow(`select "id", "name", "team" from "c"."user" where id=$1`, id).Scan(&u.Id, &u.Name, &u.Team)
-  if err != nil {
-    logex.Warningf("query user failed. [%v]", err)
-  }
-  return u, err
+	err = db.QueryRow(`select "id", "name", "team" from "c"."user" where id=$1`, id).Scan(&u.Id, &u.Name, &u.Team)
+	if err != nil {
+		logex.Warningf("query user failed. [%v]", err)
+	}
+	return u, err
 }

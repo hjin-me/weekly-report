@@ -1,8 +1,7 @@
 package types
 
 import (
-	"encoding/json"
-	"errors"
+		"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/graphql-go/graphql"
@@ -79,9 +78,6 @@ func AuthResolver(params graphql.ResolveParams) (interface{}, error) {
 		logex.Info("search failed")
 		return nil, err
 	}
-	x, _ := json.Marshal(sr)
-	logex.Infof("asdjfklasjdflkas %s", x)
-
 	if len(sr.Entries) != 1 {
 		logex.Info("too many users or no user")
 		return nil, errors.New("user does not exist or too many entries returned")

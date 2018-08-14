@@ -1,9 +1,8 @@
 package db
 
 import (
-  "testing"
-  "github.com/hjin-me/weekly-report/api/actions/types"
-  "encoding/json"
+	"encoding/json"
+		"testing"
 )
 
 //func TestGetDB(t *testing.T) {
@@ -11,7 +10,7 @@ import (
 //}
 
 func TestOverwriteWeekly(t *testing.T) {
-  s1 := ` {
+	s1 := ` {
   "reporter": {
     "name": "who"
   },
@@ -37,7 +36,7 @@ func TestOverwriteWeekly(t *testing.T) {
     }
   ]
 }`
-  s2 := ` {
+	s2 := ` {
   "reporter": {
     "name": "who"
   },
@@ -76,20 +75,20 @@ func TestOverwriteWeekly(t *testing.T) {
     }
   ]
 }`
-  w1 := types.Weekly{}
-  w2 := types.Weekly{}
-  err := json.Unmarshal([]byte(s1), &w1)
-  if err != nil {
-    t.Fatal(err)
-  }
-  err = json.Unmarshal([]byte(s2), &w2)
-  if err != nil {
-    t.Fatal(err)
-  }
-  err = OverwriteWeekly(w1)
-  t.Error(err)
-  err = OverwriteWeekly(w2)
-  t.Error(err)
-  w1.Week.Week = 34
-  err = OverwriteWeekly(w1)
+	w1 := Weekly{}
+	w2 := Weekly{}
+	err := json.Unmarshal([]byte(s1), &w1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = json.Unmarshal([]byte(s2), &w2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = OverwriteWeekly(w1)
+	t.Error(err)
+	err = OverwriteWeekly(w2)
+	t.Error(err)
+	w1.Week.Week = 34
+	err = OverwriteWeekly(w1)
 }

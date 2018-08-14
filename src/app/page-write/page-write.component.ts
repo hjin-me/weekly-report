@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../project.service';
 import { Project, Weekly } from '../project';
 import { ReportService } from '../report.service';
-import { SessionService } from '../session.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-page-write',
@@ -16,21 +14,18 @@ export class PageWriteComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private reportService: ReportService,
-    private sessionService: SessionService,
-    private router: Router
+    private reportService: ReportService
   ) {}
 
   ngOnInit() {
-    if (!this.sessionService.token) {
-      setTimeout(() => {
-        this.router.navigateByUrl('/session/login');
-      }, 1000);
-    }
     this.projects = this.projectService.getProjects();
     if (!this.report) {
       this.report = this.reportService.create();
     }
+    this.reportService.thisWeekly().subscribe(report => {
+      this.report = report;
+      this.checkLastWork();
+    });
     this.checkLastWork();
   }
 

@@ -68,5 +68,8 @@ func QueryWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
 	}
 
 	w, err := db.QueryOneWeekly(year, week, name)
+	if err != nil {
+		logex.Warningf("db query one weekly failed. [%v]", err)
+	}
 	return w, err
 }
