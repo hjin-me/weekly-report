@@ -13,6 +13,7 @@ import {
   MatInputModule,
   MatMenuModule,
   MatSelectModule,
+  MatSnackBarModule,
   MatToolbarModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +30,7 @@ import { SessionInterceptor } from './session.interceptor';
 import { PageReportComponent } from './page-report/page-report.component';
 import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.component';
 import { PermissionGuard } from './permission.guard';
+import { MatSnackBar } from '@angular/material/typings/esm5/snack-bar';
 
 const appRoutes: Routes = [
   {
@@ -75,6 +77,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatIconModule,
     MatSelectModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     MatCardModule,
     MatDividerModule,

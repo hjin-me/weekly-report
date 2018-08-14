@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, filter, map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 interface Credit {
   id: string;
@@ -36,7 +37,9 @@ export class SessionService implements Credit {
     }
     let info;
     try {
-      info = JSON.parse(decodeURIComponent(escape(atob( (jwt + '').split('.')[1] ))));
+      info = JSON.parse(
+        decodeURIComponent(escape(atob((jwt + '').split('.')[1])))
+      );
     } catch {
       info = null;
     }

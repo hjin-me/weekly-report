@@ -22,7 +22,6 @@ export class PermissionGuard implements CanActivate {
     return this.sessionService.session$.pipe(
       filter(s => s !== null),
       map(s => {
-        console.log('guard in', s);
         if (s === false) {
           this.router.navigate(['session', 'login']);
           return false;

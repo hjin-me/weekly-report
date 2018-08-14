@@ -73,8 +73,7 @@ export class ReportService {
       .pipe(map(resp => resp.data.weekly));
   }
 
-  thisWeekReport() {
-    const { year, week } = this.weekService.getWeekAndYear();
+  weekReport(year, week: number) {
     return this.http
       .post<{
         data: { report: { year: number; week: number; details: Report[] } };

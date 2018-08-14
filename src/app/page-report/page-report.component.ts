@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Report } from '../project';
+import { Report, Week } from '../project';
 import { ReportService } from '../report.service';
+import { WeekService } from '../week.service';
 
 @Component({
   selector: 'app-page-report',
@@ -8,21 +9,29 @@ import { ReportService } from '../report.service';
   styleUrls: ['./page-report.component.css']
 })
 export class PageReportComponent implements OnInit {
-  year: number;
-  week: number;
+  selectedWeek: Week;
+  weekOptions: Array<Week> = [];
   reports = new Map<string, Report[]>();
 
   get _reports(): Report[][] {
     return Array.from(this.reports.values());
   }
 
-  constructor(private reportService: ReportService) {}
+  constructor(
+    private reportService: ReportService,
+    private weekService: WeekService
+  ) {
+    this.weekOptions = this.weekService.latestWeeks(99);
+  }
 
   ngOnInit() {
-    this.reportService.thisWeekReport().subscribe(d => {
-      this.year = d.year;
-      this.week = d.week;
+    this.selectedWeek = this.weekOptions[0];
+    this.loadData(this.selectedWeek);
+  }
 
+  loadData(w: Week) {
+    this.reportService.weekReport(w.year, w.week).subscribe(d => {
+      this.reports = new Map<string, Report[]>();
       for (const report of d.details) {
         const { project } = report;
         if (this.reports.has(project)) {

@@ -21,4 +21,17 @@ export class WeekService {
       week: d.week()
     };
   }
+  latestWeeks(n: number): Week[] {
+    const d = moment();
+    const ret = [];
+    for (let i = 0; i < n; i++) {
+      const t = moment();
+      t.week(d.week() - i);
+      ret.push({
+        year: t.year(),
+        week: t.week()
+      });
+    }
+    return ret;
+  }
 }

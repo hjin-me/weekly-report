@@ -1,6 +1,15 @@
-<mat-card class='weekly-container'>
+<mat-card class='report-container'>
   <mat-card-header>
-    <mat-card-title>工时信息统计{{year ? '（'+ year + '年第' + week + '周）' : ''}}</mat-card-title>
+    <mat-card-title>
+      <mat-form-field>
+        <mat-select placeholder="日期" [value]="selectedWeek" (valueChange)="loadData($event)">
+          <mat-option *ngFor="let w of weekOptions" [value]="w">
+            {{ w.year + '年第' + w.week + '周'}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>工时信息统计</span>
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
 

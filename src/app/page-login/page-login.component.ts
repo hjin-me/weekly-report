@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../session.service';
-import { switchMap, take } from 'rxjs/operators';
+import { catchError, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { FillTeamDialogComponent } from '../fill-team-dialog/fill-team-dialog.component';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-page-login',
@@ -18,7 +19,8 @@ export class PageLoginComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {}
@@ -43,6 +45,26 @@ export class PageLoginComponent implements OnInit {
             return this.sessionService.fillTeamInfo(team);
           })
         );
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+          this.snackBar.open('An error occurred:', error.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.error(
+            `Backend returned code ${error.status}, ` + `body was:`,
+            error.error
+          );
+          this.snackBar.open(
+            `Backend returned code ${error.status}, ` +
+              `body was: ${error.error.errors[0].message}`
+          );
+        }
+        // return an observable with a user-facing error message
+        return throwError('Something bad happened; please try again later.');
       })
     ).subscribe(result => {
       return this.router.navigateByUrl('/write');
