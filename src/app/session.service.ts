@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, filter, map } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface Credit {
   id: string;
@@ -30,6 +29,7 @@ export class SessionService implements Credit {
       this.session$.next(false);
     }
   }
+
   parseJWT() {
     const jwt = localStorage.getItem('jwt');
     if (!jwt) {
@@ -113,6 +113,7 @@ export class SessionService implements Credit {
       .pipe(
         map(resp => {
           this.team = resp.data.modifyTeam;
+          this.obsEmit();
           return this.team;
         })
       );

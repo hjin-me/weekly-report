@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProjectService } from '../project.service';
 import { Project, Weekly } from '../project';
 import { ReportService } from '../report.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-page-write',
   templateUrl: './page-write.component.html',
   styleUrls: ['./page-write.component.css']
 })
-export class PageWriteComponent implements OnInit {
+export class PageWriteComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
   report: Weekly;
   projects: Project[] = [];
 
@@ -18,15 +21,23 @@ export class PageWriteComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.projects = this.projectService.getProjects();
+    this.projectService
+      .getProjects()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(p => (this.projects = p));
     if (!this.report) {
       this.report = this.reportService.create();
     }
     this.reportService.thisWeekly().subscribe(report => {
-      this.report = report;
-      this.checkLastWork();
+      if (report) {
+        this.report = report;
+        this.checkLastWork();
+      }
     });
     this.checkLastWork();
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
   }
 
   checkLastWork() {

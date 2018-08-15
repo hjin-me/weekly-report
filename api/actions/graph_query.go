@@ -45,6 +45,10 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: types.QueryReportResolver,
 		},
+		"projects": &graphql.Field{
+			Type:    graphql.NewList(types.ProjectType),
+			Resolve: types.ProjectResolver,
+		},
 
 		"hello": &graphql.Field{
 			Type: graphql.String,

@@ -1,6 +1,7 @@
 package types
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"github.com/graphql-go/graphql"
@@ -70,6 +71,9 @@ func QueryWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
 	w, err := db.QueryOneWeekly(year, week, name)
 	if err != nil {
 		logex.Warningf("db query one weekly failed. [%v]", err)
+	}
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
 	return w, err
 }

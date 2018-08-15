@@ -20,7 +20,10 @@ export class NavComponent implements OnInit {
           return '';
         }
         if (typeof s !== 'boolean') {
-          return `${s.name} (${s.team})`;
+          if (s.team) {
+            return `${s.name} (${s.team})`;
+          }
+          return s.name;
         }
         return '';
       })

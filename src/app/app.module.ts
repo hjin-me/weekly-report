@@ -30,7 +30,7 @@ import { SessionInterceptor } from './session.interceptor';
 import { PageReportComponent } from './page-report/page-report.component';
 import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.component';
 import { PermissionGuard } from './permission.guard';
-import { MatSnackBar } from '@angular/material/typings/esm5/snack-bar';
+import { AddProjectComponent } from './add-project/add-project.component';
 
 const appRoutes: Routes = [
   {
@@ -63,9 +63,10 @@ const appRoutes: Routes = [
     ProjectExistPipe,
     PageLoginComponent,
     PageReportComponent,
-    FillTeamDialogComponent
+    FillTeamDialogComponent,
+    AddProjectComponent
   ],
-  entryComponents: [FillTeamDialogComponent],
+  entryComponents: [FillTeamDialogComponent, AddProjectComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
