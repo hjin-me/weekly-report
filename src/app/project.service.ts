@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProjectService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getProjects(): Observable<Project[]> {
     return this.http
@@ -23,6 +22,23 @@ export class ProjectService {
       .pipe(
         map(resp => {
           return resp.data.projects;
+        })
+      );
+  }
+
+  saveProject(project: Project): Observable<boolean> {
+    return this.http
+      .post<{ data: { saveProject: boolean } }>('/x/graph', {
+        query: `mutation SaveProject($project: ProjectInput!) {
+        saveProject(project: $project)
+      }`,
+        variables: {
+          project
+        }
+      })
+      .pipe(
+        map(resp => {
+          return resp.data.saveProject;
         })
       );
   }

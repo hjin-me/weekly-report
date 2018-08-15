@@ -50,7 +50,9 @@ export class PageLoginComponent implements OnInit {
         if (error.error instanceof ErrorEvent) {
           // A client-side or network error occurred. Handle it accordingly.
           console.error('An error occurred:', error.error.message);
-          this.snackBar.open('An error occurred:', error.error.message);
+          this.snackBar.open('An error occurred:', error.error.message, {
+            duration: 3000
+          });
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong,
@@ -60,7 +62,11 @@ export class PageLoginComponent implements OnInit {
           );
           this.snackBar.open(
             `Backend returned code ${error.status}, ` +
-              `body was: ${error.error.errors[0].message}`
+              `body was: ${error.error.errors[0].message}`,
+            '',
+            {
+              duration: 3000
+            }
           );
         }
         // return an observable with a user-facing error message

@@ -1,15 +1,28 @@
 <h1 mat-dialog-title>添加一条项目</h1>
 <div mat-dialog-content>
-  <mat-form-field>
-    <input matInput placeholder="项目编号" [(value)]="data.team">
+  <mat-form-field class="full-width">
+    <input matInput placeholder="项目编号" [(ngModel)]="data.id">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="项目名称" [(value)]="data.team">
+  <mat-form-field class="full-width">
+    <input matInput placeholder="项目名称" [(ngModel)]="data.name">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="任务模块" [(value)]="data.team">
+  <mat-form-field class="full-width">
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let t of data.tasks" [selectable]="true"
+                [removable]="true" (removed)="remove(t)">
+        {{t}}
+        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="任务模块"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="true"
+             (matChipInputTokenEnd)="add($event)"
+             >
+    </mat-chip-list>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data.team" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="save()" cdkFocusInitial>保存</button>
+  <button mat-button (click)="save(true)">保存并创建下一条</button>
 </div>
