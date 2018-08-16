@@ -68,7 +68,7 @@ func AuthResolver(params graphql.ResolveParams) (interface{}, error) {
 	searchRequest := ldap.NewSearchRequest(
 		baseDN,
 		ldap.ScopeWholeSubtree, ldap.NeverDerefAliases, 0, 0, false,
-		fmt.Sprintf("(&(objectClass=person)(uid=%s))", username),
+		fmt.Sprintf("(&(objectClass=person)(|(uid=%s)(mail=%s)))", username, username),
 		[]string{"dn", "uid", "mail", "displayName"},
 		nil,
 	)
