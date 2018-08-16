@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
-import { takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { AddProjectComponent } from '../add-project/add-project.component';
@@ -20,12 +20,18 @@ export class PageProjectComponent implements OnInit, OnDestroy {
     private dialog: MatDialog
   ) {}
 
-  openAddDialog() {
+  openAddDialog(data: Partial<Project> = {}) {
     const dialogRef = this.dialog.open(AddProjectComponent, {
       width: '400px',
-      data: {}
+      data: { ...data, tasks: [...(data.tasks || [])] }
     });
-    return dialogRef.afterClosed();
+    return dialogRef
+      .afterClosed()
+      .pipe(
+        switchMap(() => this.projectService.getProjects()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(p => (this.projects = p));
   }
 
   ngOnInit() {

@@ -5,3 +5,9 @@
 .form-full-width {
   width: 100%;
 }
+.hover-visible {
+  color: white;
+}
+.hover-visible:hover {
+  color: inherit;
+}

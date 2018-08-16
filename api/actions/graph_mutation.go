@@ -26,5 +26,14 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: types.MutationTeamResolver,
 		},
+		"saveProject": &graphql.Field{
+			Type: graphql.Boolean,
+			Args: graphql.FieldConfigArgument{
+				"project": &graphql.ArgumentConfig{
+					Type: types.ProjectInput,
+				},
+			},
+			Resolve: types.ProjectSaveResolver,
+		},
 	},
 })

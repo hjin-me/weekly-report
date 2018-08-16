@@ -36,3 +36,20 @@ func QueryAllProjects() ([]Project, error) {
 	}
 	return allProj, nil
 }
+
+func SaveProject(project Project) error {
+	data, err := json.Marshal(project.Tasks)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec(`insert into "c"."project" ("id", "name", "tasks") values
+  	($1, $2, $3)
+    ON CONFLICT ("id") 
+    DO UPDATE 
+    SET "name" = EXCLUDED.name, "tasks" = EXCLUDED.tasks;
+  	`, project.Id, project.Name, data)
+	if err != nil {
+		logex.Warningf("insert project failed. [%v]", err)
+	}
+	return err
+}

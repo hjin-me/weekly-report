@@ -30,12 +30,12 @@
       <ng-container *ngFor='let v of _reports'>
         <tr *ngFor='let report of v;first as isFirst'>
           <td *ngIf='isFirst' [attr.rowspan]="v.length">{{report.project}}</td>
-          <td>{{report.task}}</td>
+          <td><span>{{report.task}}</span></td>
           <td></td>
-          <td>{{report.team}}</td>
-          <td>{{report.reporter}}</td>
-          <td>{{report.requester}}</td>
-          <td>{{report.time}}</td>
+          <td><span>{{report.team}}</span></td>
+          <td><span>{{report.reporter}}</span></td>
+          <td><span>{{report.requester}}</span></td>
+          <td><span>{{report.time}}</span></td>
           <td class='info'>{{report.info}}</td>
         </tr>
       </ng-container>
