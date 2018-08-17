@@ -4,6 +4,7 @@ import (
   "github.com/graphql-go/graphql"
   "github.com/hjin-me/weekly-report/api/db"
   "github.com/mitchellh/mapstructure"
+  "errors"
 )
 
 var ProjectType = graphql.NewObject(graphql.ObjectConfig{
@@ -37,6 +38,9 @@ func ProjectSaveResolver(params graphql.ResolveParams) (interface{}, error) {
   err := mapstructure.Decode(params.Args["project"], &project)
   if err != nil {
     return false, err
+  }
+  if project.Id == "" || project.Name == "" {
+    return false, errors.New("id or name must not empty")
   }
   err = db.SaveProject(project)
   if err != nil {

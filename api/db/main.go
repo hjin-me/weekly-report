@@ -80,6 +80,8 @@ func init() {
 );`,
 		initData,
 	})
+
+	cleanDirtyData()
 	db := GetDB()
 	queryOneWeeklyStmt, err = db.Prepare(`select data from c.weekly where year=$1 and week=$2 and name=$3`)
 	if err != nil {
@@ -89,7 +91,7 @@ func init() {
 	if err != nil {
 		logex.Fatalf("sql prepare failed. [%v]", err)
 	}
-	queryAllProjectStmt, err = db.Prepare(`select id, name, tasks from c.project`)
+	queryAllProjectStmt, err = db.Prepare(`select id, name, tasks from c.project order by id ASC`)
 	if err != nil {
 		logex.Fatalf("sql prepare failed. [%v]", err)
 	}
@@ -133,4 +135,12 @@ func ensureTable(schemaName, tableName string, query []string) {
 	}
 	logex.Infof("table [%s] create success.", tableName)
 	return
+}
+
+func cleanDirtyData() {
+	db := GetDB()
+	_, err := db.Exec(`delete from "c"."project" where id = ''`)
+	if err != nil {
+		logex.Fatalf("clean dirty data failed. [%v]", err)
+	}
 }

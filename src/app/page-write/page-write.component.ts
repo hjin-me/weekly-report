@@ -40,6 +40,15 @@ export class PageWriteComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
+  removeRow(id: string) {
+    if (!id) {
+      return;
+    }
+
+    const index = this.report.works.findIndex(w => w.project === id);
+    this.report.works.splice(index, 1);
+  }
+
   checkLastWork() {
     if (this.report.works.length === 0) {
       this.report.works.push(this.reportService.createWork());

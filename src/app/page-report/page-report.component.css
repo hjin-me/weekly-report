@@ -23,4 +23,5 @@
 
 .info {
   max-width: 200px;
+  white-space: pre-line;
 }
