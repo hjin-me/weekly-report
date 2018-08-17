@@ -103,7 +103,7 @@ func ensureTable(schemaName, tableName string, query []string) {
 	case err == sql.ErrNoRows:
 		// create schema
 		logex.Infof("create schema [%v]", schemaName)
-		_, err = db.Exec(`CREATE SCHEMA $1`, schemaName)
+		_, err = db.Exec(fmt.Sprintf(`CREATE SCHEMA %s`, schemaName))
 		if err != nil {
 			logex.Fatalf("create schema [%s] failed. [%v]", schemaName, err)
 		}
