@@ -56,6 +56,9 @@ export class ReportService {
   }
   thisWeekly() {
     const { year, week } = this.weekService.getWeekAndYear();
+    return this.queryWeekly(year, week);
+  }
+  queryWeekly(year, week: number) {
     return this.http
       .post<{ data: { weekly: Weekly } }>('/x/graph', {
         query: `query Weekly($year: Int!, $week: Int!){

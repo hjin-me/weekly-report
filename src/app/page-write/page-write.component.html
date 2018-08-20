@@ -1,6 +1,16 @@
 <mat-card class="weekly-container">
   <mat-card-header>
-    <mat-card-title>填写周报</mat-card-title>
+    <mat-card-title>
+      <span>填写</span>
+      <mat-form-field>
+        <mat-select placeholder="日期" [(value)]="selectedWeek" (valueChange)="loadData($event)">
+          <mat-option *ngFor="let w of weekOptions" [value]="w">
+            {{ w.year + '年第' + w.week + '周'}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>周报</span>
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div *ngFor="let w of report.works; last as l">
@@ -19,7 +29,8 @@
             <div fxFlex="3 0 10px">
               <mat-form-field class="form-full-width">
                 <mat-select placeholder="任务模块" [(value)]="w.task" [disabled]="(w.project | task:projects).length === 0">
-                  <mat-option *ngFor="let task of w.project | task:projects" [value]="task">
+                  <mat-option *ngFor="let task of w.project | task:projects" [value]="task"
+                              [disabled]="task | taskExist:report:w.project">
                     {{task}}
                   </mat-option>
                 </mat-select>

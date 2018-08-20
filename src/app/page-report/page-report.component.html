@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>
       <mat-form-field>
-        <mat-select placeholder="日期" [value]="selectedWeek" (valueChange)="loadData($event)">
+        <mat-select placeholder="日期" [(value)]="selectedWeek" (valueChange)="loadData($event)">
           <mat-option *ngFor="let w of weekOptions" [value]="w">
             {{ w.year + '年第' + w.week + '周'}}
           </mat-option>

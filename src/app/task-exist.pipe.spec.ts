@@ -1,8 +1,8 @@
-import { ProjectExistPipe } from './project-exist.pipe';
+import { TaskExistPipe } from './task-exist.pipe';
 
 describe('ProjectExistPipe', () => {
   it('create an instance', () => {
-    const pipe = new ProjectExistPipe();
+    const pipe = new TaskExistPipe();
     expect(pipe).toBeTruthy();
   });
 });

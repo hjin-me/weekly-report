@@ -24,7 +24,6 @@ import { PageWriteComponent } from './page-write/page-write.component';
 import { PageProjectComponent } from './page-project/page-project.component';
 import { NavComponent } from './nav/nav.component';
 import { TaskPipe } from './pipes/task/task.pipe';
-import { ProjectExistPipe } from './project-exist.pipe';
 import { PageLoginComponent } from './page-login/page-login.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SessionInterceptor } from './session.interceptor';
@@ -32,6 +31,7 @@ import { PageReportComponent } from './page-report/page-report.component';
 import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.component';
 import { PermissionGuard } from './permission.guard';
 import { AddProjectComponent } from './add-project/add-project.component';
+import { TaskExistPipe } from './task-exist.pipe';
 
 const appRoutes: Routes = [
   {
@@ -61,7 +61,7 @@ const appRoutes: Routes = [
     PageProjectComponent,
     NavComponent,
     TaskPipe,
-    ProjectExistPipe,
+    TaskExistPipe,
     PageLoginComponent,
     PageReportComponent,
     FillTeamDialogComponent,
