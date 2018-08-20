@@ -14,7 +14,19 @@ export class PageReportComponent implements OnInit {
   reports = new Map<string, Report[]>();
 
   get _reports(): Report[][] {
-    return Array.from(this.reports.values());
+    const ret = Array.from(this.reports.values());
+    for (const p of ret) {
+      p.sort((a, b) => {
+        if (a.task > b.task) {
+          return 1;
+        }
+        if (a.task < b.task) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    return ret;
   }
 
   constructor(
