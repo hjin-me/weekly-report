@@ -2,7 +2,7 @@ package db
 
 import (
 	"encoding/json"
-  "git.avlyun.org/inf/weekly/api/logex"
+	"git.avlyun.org/inf/weekly/api/logex"
 )
 
 type ReportRow struct {
@@ -15,6 +15,7 @@ type ReportRow struct {
 	Requester string  `json:"requester"`
 	Time      float32 `json:"time"`
 	Info      string  `json:"info"`
+	Problem   string  `json:"problem"`
 }
 
 type Report struct {
@@ -53,6 +54,7 @@ func QueryWeekReport(year, week int) (collections []ReportRow, err error) {
 				Requester: task.Requester,
 				Time:      sumTime(task.Time),
 				Info:      task.Work,
+				Problem:   task.Problem,
 			})
 		}
 	}

@@ -37,4 +37,5 @@ export interface Report {
   requester: string;
   time: number;
   info: string;
+  problem: string;
 }

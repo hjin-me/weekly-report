@@ -15,7 +15,8 @@ import {
   MatMenuModule,
   MatSelectModule,
   MatSnackBarModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { WorkTimeComponent } from './work-time/work-time.component';
@@ -32,6 +33,7 @@ import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.com
 import { PermissionGuard } from './permission.guard';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { TaskExistPipe } from './task-exist.pipe';
+import { ProjectPipe } from './project.pipe';
 
 const appRoutes: Routes = [
   {
@@ -65,7 +67,8 @@ const appRoutes: Routes = [
     PageLoginComponent,
     PageReportComponent,
     FillTeamDialogComponent,
-    AddProjectComponent
+    AddProjectComponent,
+    ProjectPipe
   ],
   entryComponents: [FillTeamDialogComponent, AddProjectComponent],
   imports: [
@@ -84,6 +87,7 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     MatCardModule,
     MatDividerModule,
+    MatTooltipModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule
   ],

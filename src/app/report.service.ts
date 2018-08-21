@@ -85,7 +85,7 @@ export class ReportService {
 	      report(year: $year, week: $week) {
 	        year, week,
 	        details {
-	          year, week, project, task, reporter, requester, time, info, team
+	          year, week, project, task, reporter, requester, time, info, team, problem
 	        }
 	      }
       }`,

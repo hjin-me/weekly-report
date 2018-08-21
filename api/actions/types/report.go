@@ -29,5 +29,6 @@ var ReportRowType = graphql.NewObject(graphql.ObjectConfig{
 		"requester": &graphql.Field{Type: graphql.String},
 		"time":      &graphql.Field{Type: graphql.Float},
 		"info":      &graphql.Field{Type: graphql.String},
+		"problem":   &graphql.Field{Type: graphql.String},
 	},
 })
