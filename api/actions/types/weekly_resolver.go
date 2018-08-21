@@ -2,12 +2,13 @@ package types
 
 import (
 	"database/sql"
-	"encoding/json"
 	"errors"
 	"github.com/graphql-go/graphql"
 	"github.com/hjin-me/weekly-report/api/db"
 	"github.com/hjin-me/weekly-report/api/logex"
 	"github.com/mitchellh/mapstructure"
+	"math"
+	"time"
 )
 
 func SaveWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
@@ -18,8 +19,12 @@ func SaveWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
 		logex.Debugf("params weekly is [%v]", params.Args["weekly"])
 		return nil, errors.New("params weekly is illegal")
 	}
-	x, y := json.Marshal(weekly)
-	logex.Debugf("%s %v", x, y)
+	force := params.Args["force"].(bool)
+	year, week := time.Now().ISOWeek()
+	if math.Abs(float64(week-weekly.Week.Week+(year-weekly.Week.Year)*53)) > 1 && !force {
+		logex.Debugf("cant modify old weekly [%d %d] [%d %d]", year, week, weekly.Week.Year, weekly.Week.Week)
+		return nil, errors.New("out of date limit")
+	}
 
 	name, ok := params.Context.Value("username").(string)
 	if !ok {

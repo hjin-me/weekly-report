@@ -13,13 +13,13 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let w of report.works; last as l">
+    <div *ngFor="let w of report.works; last as l; index as i">
       <div fxLayout="row" fxLayoutGap="8px" style="padding: 16px 0 0">
         <div fxFlex="10 0 10px">
           <div fxLayout="row" fxLayoutGap="8px">
             <div fxFlex="6 0 10px">
               <mat-form-field class="form-full-width">
-                <mat-select placeholder="项目编号" [(value)]="w.project" (valueChange)="checkLastWork()">
+                <mat-select placeholder="项目编号" [(value)]="w.project" (valueChange)="checkLastWork(i)">
                   <mat-option *ngFor="let p of projects" [value]="p.id">
                     <b>{{p.name}}</b> ({{p.id}})
                   </mat-option>

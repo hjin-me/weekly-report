@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProjectService } from '../project.service';
 import { Project, Week, Weekly } from '../project';
 import { ReportService } from '../report.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
 import { WeekService } from '../week.service';
+import { MatSnackBar } from '@angular/material';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-page-write',
@@ -21,7 +23,8 @@ export class PageWriteComponent implements OnInit, OnDestroy {
   constructor(
     private projectService: ProjectService,
     private reportService: ReportService,
-    private weekService: WeekService
+    private weekService: WeekService,
+    private snackBar: MatSnackBar
   ) {
     this.weekOptions = this.weekService.latestWeeks(99);
   }
@@ -59,7 +62,19 @@ export class PageWriteComponent implements OnInit, OnDestroy {
     this.report.works.splice(index, 1);
   }
 
-  checkLastWork() {
+  checkLastWork(index?: number) {
+    if (typeof index === 'number') {
+      const project = this.projects.find(
+        p => p.id === this.report.works[index].project
+      );
+      if (
+        project &&
+        project.tasks.findIndex(t => t === this.report.works[index].task) === -1
+      ) {
+        this.report.works[index].task = project.tasks[0];
+      }
+    }
+
     if (this.report.works.length === 0) {
       this.report.works.push(this.reportService.createWork());
       return;
@@ -74,7 +89,45 @@ export class PageWriteComponent implements OnInit, OnDestroy {
     this.report.week = this.selectedWeek;
     const report = JSON.parse(JSON.stringify(this.report));
     report.works = report.works.filter(w => !!w.project);
-    this.reportService.save(report).subscribe(d => alert('success'));
+    this.reportService
+      .save(report)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.error instanceof ErrorEvent) {
+            // A client-side or network error occurred. Handle it accordingly.
+            console.error('An error occurred:', error.error.message);
+            this.snackBar.open(
+              'An error occurred: ' + error.error.message,
+              '我知道了',
+              {
+                duration: 3000
+              }
+            );
+          } else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong,
+            console.error(
+              `Backend returned code ${error.status}, ` + `body was:`,
+              error.error
+            );
+            this.snackBar.open(
+              `Backend returned code ${error.status}, ` +
+                `body was: ${error.error.errors[0].message}`,
+              '我知道了',
+              {
+                duration: 3000
+              }
+            );
+          }
+          // return an observable with a user-facing error message
+          return throwError('Something bad happened; please try again later.');
+        })
+      )
+      .subscribe(() => {
+        this.snackBar.open(`保存成功`, '确认', {
+          duration: 3000
+        });
+      });
   }
 
   loadData(w: Week) {

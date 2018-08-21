@@ -14,6 +14,10 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 				"weekly": &graphql.ArgumentConfig{
 					Type: graphql.NewNonNull(types.WeeklyInput),
 				},
+				"force": &graphql.ArgumentConfig{
+					Type:         graphql.Boolean,
+					DefaultValue: false,
+				},
 			},
 			Resolve: types.SaveWeeklyResolver,
 		},
