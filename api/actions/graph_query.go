@@ -1,8 +1,8 @@
 package actions
 
 import (
+	"git.avlyun.org/inf/weekly/api/actions/types"
 	"github.com/graphql-go/graphql"
-	"github.com/hjin-me/weekly-report/api/actions/types"
 )
 
 // query

@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"encoding/json"
-	"github.com/hjin-me/oublie/api/logex"
+  "git.avlyun.org/inf/weekly/api/logex"
 )
 
 type Week struct {

@@ -2,8 +2,8 @@ package types
 
 import (
 	"errors"
+	"git.avlyun.org/inf/weekly/api/db"
 	"github.com/graphql-go/graphql"
-	"github.com/hjin-me/weekly-report/api/db"
 	"github.com/mitchellh/mapstructure"
 )
 

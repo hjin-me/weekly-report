@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/hjin-me/weekly-report/api/actions"
-	"github.com/hjin-me/weekly-report/api/static"
+  "git.avlyun.org/inf/weekly/api/actions"
+  "git.avlyun.org/inf/weekly/api/static"
 )
 
 func main() {

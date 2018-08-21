@@ -6,8 +6,8 @@ import (
 	"os"
 	"path"
 
+	"git.avlyun.org/inf/weekly/api/logex"
 	"github.com/gin-gonic/gin"
-	"github.com/hjin-me/oublie/api/logex"
 	"html/template"
 	"io/ioutil"
 	"net/http"

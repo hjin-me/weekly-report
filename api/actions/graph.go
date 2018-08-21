@@ -3,10 +3,10 @@ package actions
 import (
 	"context"
 	"encoding/json"
+	"git.avlyun.org/inf/weekly/api/actions/types"
+	"git.avlyun.org/inf/weekly/api/logex"
 	"github.com/gin-gonic/gin"
 	"github.com/graphql-go/graphql"
-	"github.com/hjin-me/weekly-report/api/actions/types"
-	"github.com/hjin-me/weekly-report/api/logex"
 	"io/ioutil"
 	"net/http"
 )
@@ -44,7 +44,7 @@ func Graph(c *gin.Context) {
 	if err != nil {
 		logex.Warningf("request json illegal: %v", err)
 		c.AbortWithError(http.StatusBadRequest, err)
-    //c.JSON(http.StatusBadRequest, r)
+		//c.JSON(http.StatusBadRequest, r)
 		return
 	}
 

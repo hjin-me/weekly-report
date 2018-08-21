@@ -11,8 +11,8 @@ import (
 
 	"bytes"
 	"fmt"
+	"git.avlyun.org/inf/weekly/api/logex"
 	"github.com/gin-gonic/gin"
-	"github.com/hjin-me/weekly-report/api/logex"
 	"strings"
 )
 

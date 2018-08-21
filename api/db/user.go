@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/hjin-me/weekly-report/api/logex"
+  "git.avlyun.org/inf/weekly/api/logex"
 )
 
 type User struct {

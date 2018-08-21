@@ -2,7 +2,7 @@ package db
 
 import (
 	"encoding/json"
-	"github.com/hjin-me/weekly-report/api/logex"
+  "git.avlyun.org/inf/weekly/api/logex"
 )
 
 type Project struct {

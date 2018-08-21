@@ -7,7 +7,7 @@ import (
 
 	"encoding/json"
 	"fmt"
-	"github.com/hjin-me/oublie/api/logex"
+	"git.avlyun.org/inf/weekly/api/logex"
 	_ "github.com/lib/pq"
 )
 

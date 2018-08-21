@@ -2,9 +2,9 @@ package types
 
 import (
 	"errors"
+	"git.avlyun.org/inf/weekly/api/db"
+	"git.avlyun.org/inf/weekly/api/logex"
 	"github.com/graphql-go/graphql"
-	"github.com/hjin-me/weekly-report/api/db"
-	"github.com/hjin-me/weekly-report/api/logex"
 )
 
 func QueryReportResolver(params graphql.ResolveParams) (interface{}, error) {
