@@ -12,6 +12,7 @@ var ProjectType = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"id":    &graphql.Field{Type: graphql.String},
 		"name":  &graphql.Field{Type: graphql.String},
+		"order": &graphql.Field{Type: graphql.Int},
 		"tasks": &graphql.Field{Type: graphql.NewList(graphql.String)},
 	},
 })
@@ -19,9 +20,10 @@ var ProjectType = graphql.NewObject(graphql.ObjectConfig{
 var ProjectInput = graphql.NewInputObject(graphql.InputObjectConfig{
 	Name: "ProjectInput",
 	Fields: graphql.InputObjectConfigFieldMap{
-		"id":    &graphql.InputObjectFieldConfig{Type: graphql.String},
-		"name":  &graphql.InputObjectFieldConfig{Type: graphql.String},
-		"tasks": &graphql.InputObjectFieldConfig{Type: graphql.NewList(graphql.String)},
+		"id":    &graphql.InputObjectFieldConfig{Type: graphql.NewNonNull(graphql.String)},
+		"name":  &graphql.InputObjectFieldConfig{Type: graphql.NewNonNull(graphql.String)},
+		"order": &graphql.InputObjectFieldConfig{Type: graphql.Int},
+		"tasks": &graphql.InputObjectFieldConfig{Type: graphql.NewNonNull(graphql.NewList(graphql.String))},
 	},
 })
 

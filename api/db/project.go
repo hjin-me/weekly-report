@@ -24,7 +24,7 @@ func QueryAllProjects() ([]Project, error) {
 	for rows.Next() {
 		var tasks []byte
 		p := Project{}
-		if err := rows.Scan(&p.Id, &p.Name, &tasks); err != nil {
+		if err := rows.Scan(&p.Id, &p.Name, &p.Order, &tasks); err != nil {
 			logex.Warningf("query projects, scan failed. [%v]", err)
 			return nil, err
 		}

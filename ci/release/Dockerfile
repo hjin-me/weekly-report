@@ -1,6 +1,6 @@
 
 FROM golang:alpine as goBuilder
-WORKDIR "/go/src/github.com/hjin-me/weekly-report"
+WORKDIR "/go/src/git.avlyun.org/inf/weekly"
 COPY ./api ./api
 RUN go build -v -o /go/bin/app ./api/app.go
 
