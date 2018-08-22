@@ -2,12 +2,13 @@ package db
 
 import (
 	"encoding/json"
-  "git.avlyun.org/inf/weekly/api/logex"
+	"git.avlyun.org/inf/weekly/api/logex"
 )
 
 type Project struct {
 	Id    string   `json:"id"`
 	Name  string   `json:"name"`
+	Order int      `json:"order"`
 	Tasks []string `json:"tasks"`
 }
 

@@ -12,46 +12,66 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-
-    <table class='report-table' cellspacing='0'>
-      <thead>
-      <tr>
-        <th>项目编码</th>
-        <th>任务模块</th>
-        <th>合同编码</th>
-        <th>小组名称</th>
-        <th>人员姓名</th>
-        <th>需求人</th>
-        <th>工时数量(天)</th>
-        <th>说明</th>
-        <th>需求方确认</th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngFor='let v of _reports'>
-        <tr *ngFor='let report of v;first as isFirst'>
-          <td *ngIf='isFirst' [attr.rowspan]="v.length">
+    <div class="filter">
+      <!--<div>-->
+        <!--<mat-form-field>-->
+          <!--<mat-select placeholder="按项目过滤" multiple>-->
+            <!--<mat-option *ngFor="let p of projects" [value]="p.id">-->
+              <!--<b>{{p.name}}</b> ({{p.id}})-->
+            <!--</mat-option>-->
+          <!--</mat-select>-->
+        <!--</mat-form-field>-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<mat-form-field>-->
+          <!--<mat-select placeholder="按人员过滤" multiple>-->
+            <!--<mat-option *ngFor="let w of weekOptions" [value]="w">-->
+              <!--{{ w.year + '年第' + w.week + '周'}}-->
+            <!--</mat-option>-->
+          <!--</mat-select>-->
+        <!--</mat-form-field>-->
+      <!--</div>-->
+    </div>
+    <div>
+      <table class='report-table' cellspacing='0'>
+        <thead>
+        <tr>
+          <th>项目编码</th>
+          <th>任务模块</th>
+          <th>合同编码</th>
+          <th>小组名称</th>
+          <th>人员姓名</th>
+          <th>需求人</th>
+          <th>工时数量(天)</th>
+          <th>说明</th>
+          <th>需求方确认</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor='let v of _reports'>
+          <tr *ngFor='let report of v;first as isFirst'>
+            <td *ngIf='isFirst' [attr.rowspan]="v.length">
             <span
-              [matTooltip]="report.project | project:this.projects"
+              [matTooltip]="report.project | project:projects"
               [matTooltipPosition]="'right'"
             >{{report.project}}</span>
-          </td>
-          <td><span>{{report.task}}</span></td>
-          <td></td>
-          <td><span>{{report.team}}</span></td>
-          <td><span>{{report.reporter}}</span></td>
-          <td><span>{{report.requester}}</span></td>
-          <td><span>{{report.time}}</span></td>
-          <td class='info'
-              [matTooltip]="report.problem"
-              [matTooltipPosition]="'below'"
-          >{{report.info}}
-          </td>
-          <td></td>
-        </tr>
-      </ng-container>
-      </tbody>
-    </table>
-
+            </td>
+            <td><span>{{report.task}}</span></td>
+            <td></td>
+            <td><span>{{report.team}}</span></td>
+            <td><span>{{report.reporter}}</span></td>
+            <td><span>{{report.requester}}</span></td>
+            <td><span>{{report.time}}</span></td>
+            <td class='info'
+                [matTooltip]="report.problem"
+                [matTooltipPosition]="'below'"
+            >{{report.info}}
+            </td>
+            <td></td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
   </mat-card-content>
 </mat-card>
