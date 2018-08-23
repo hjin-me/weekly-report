@@ -1,11 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Project, Report, Reporter, Week } from '../project';
+import { Project, Report, Week } from '../project';
 import { ReportService } from '../report.service';
 import { WeekService } from '../week.service';
 import { ProjectService } from '../project.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 
+interface Filter<T> {
+  value: T;
+  disable: boolean;
+}
 @Component({
   selector: 'app-page-report',
   templateUrl: './page-report.component.html',
@@ -15,110 +19,15 @@ export class PageReportComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   selectedWeek: Week;
   weekOptions: Array<Week> = [];
-  reports = new Map<string, Report[]>();
+  rawReports = new BehaviorSubject<Report[]>([]);
+  reports: Observable<Report[][]>;
   projects: Project[] = [];
-  filter: Partial<{
-    project: string[];
-    user: string[];
-    team: string[];
-  }> = {};
-
-  get existedProjectList(): Project[] {
-    return Array.from(this.reports.keys())
-      .map(key => this.projects.find(p => p.id === key))
-      .filter(p => !!p)
-      .sort((a, b) => {
-        if (a.id > b.id) {
-          return 1;
-        }
-        if (a.id < b.id) {
-          return -1;
-        }
-        return 0;
-      });
-  }
-  get teamList(): string[] {
-    return Array.from(
-      new Set(
-        Array.from(this.reports.values())
-          .reduce((last, curr) => {
-            last = last.concat(...curr);
-            return last;
-          }, [])
-          .map(c => c.team)
-      )
-    ).sort();
-  }
-  get userList(): string[] {
-    return Array.from(
-      new Set(
-        Array.from(this.reports.values())
-          .reduce((last, curr) => {
-            last = last.concat(...curr);
-            return last;
-          }, [])
-          .map(c => c.reporter)
-      )
-    ).sort();
-  }
-
-  get _reports(): Report[][] {
-    let ret = Array.from(this.reports.values());
-    // 按项目过滤
-    if (this.filter.project && this.filter.project.length > 0) {
-      ret = ret.filter(
-        r =>
-          r.length > 0 &&
-          this.filter.project.findIndex(p => p === r[0].project) > -1
-      );
-    }
-    // 按小组过滤
-    if (this.filter.team && this.filter.team.length > 0) {
-      ret = ret
-        .map(r => {
-          return r.filter(x => this.filter.team.indexOf(x.team) > -1);
-        })
-        .filter(r => r.length > 0);
-    }
-    // 按人员过滤
-    if (this.filter.user && this.filter.user.length > 0) {
-      ret = ret
-        .map(r => {
-          return r.filter(x => this.filter.user.indexOf(x.reporter) > -1);
-        })
-        .filter(r => r.length > 0);
-    }
-    ret.sort((a, b) => {
-      if (a.length > 0 && b.length > 0) {
-        if (a[0].project > b[0].project) {
-          return 1;
-        }
-        if (a[0].project < b[0].project) {
-          return -1;
-        }
-        return 0;
-      }
-      if (a.length === 0) {
-        return 1;
-      }
-      if (b.length === 0) {
-        return -1;
-      }
-      return 0;
-    });
-    for (const p of ret) {
-      p.sort((a, b) => {
-        if (a.task > b.task) {
-          return 1;
-        }
-        if (a.task < b.task) {
-          return -1;
-        }
-        return 0;
-      });
-    }
-    return ret;
-  }
+  projectFilter = new BehaviorSubject<string[]>([]);
+  userFilter = new BehaviorSubject<string[]>([]);
+  teamFilter = new BehaviorSubject<string[]>([]);
+  existedProjectList: Observable<Filter<Project>[]>;
+  teamList: Observable<Filter<string>[]>;
+  userList: Observable<Filter<string>[]>;
 
   constructor(
     private reportService: ReportService,
@@ -130,28 +39,142 @@ export class PageReportComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectedWeek = this.weekOptions[0];
+    this.reports = combineLatest(
+      this.rawReports,
+      this.projectFilter,
+      this.teamFilter,
+      this.userFilter
+    ).pipe(
+      takeUntil(this.destroy$),
+      map(([reports, project, team, user]) => {
+        return reports.filter(r => {
+          return (
+            (project.length === 0 ||
+              project.findIndex(p => r.project === p) > -1) &&
+            (team.length === 0 || team.findIndex(t => r.team === t) > -1) &&
+            (user.length === 0 || user.findIndex(u => r.reporter === u) > -1)
+          );
+        });
+      }),
+      map(reports => {
+        const reportsMap = new Map<string, Report[]>();
+        for (const report of reports) {
+          const { project } = report;
+          if (reportsMap.has(project)) {
+            reportsMap.get(project).push(report);
+          } else {
+            reportsMap.set(project, [report]);
+          }
+        }
+        const ret = Array.from(reportsMap.values());
+        ret.sort((a, b) => {
+          if (a.length > 0 && b.length > 0) {
+            if (a[0].project > b[0].project) {
+              return 1;
+            }
+            if (a[0].project < b[0].project) {
+              return -1;
+            }
+            return 0;
+          }
+          if (a.length === 0) {
+            return 1;
+          }
+          if (b.length === 0) {
+            return -1;
+          }
+          return 0;
+        });
+        for (const p of ret) {
+          p.sort((a, b) => {
+            if (a.task > b.task) {
+              return 1;
+            }
+            if (a.task < b.task) {
+              return -1;
+            }
+            return 0;
+          });
+        }
+        return ret;
+      })
+    );
+    this.existedProjectList = this.rawReports.pipe(
+      map(data =>
+        this.projects.map(p => ({
+          value: p,
+          disable: data.findIndex(d => d.project === p.id) === -1
+        }))
+      )
+    );
+    this.teamList = this.rawReports.pipe(
+      map(data =>
+        Array.from(new Set(data.map(d => d.team)))
+          .sort()
+          .map(d => ({
+            value: d,
+            disable: false
+          }))
+      )
+    );
+    this.userList = this.rawReports.pipe(
+      map(data =>
+        Array.from(new Set(data.map(d => d.reporter)))
+          .sort()
+          .map(d => ({
+            value: d,
+            disable: false
+          }))
+      )
+    );
+
     this.loadData(this.selectedWeek);
     this.projectService
       .getProjects()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        map(projects => {
+          return projects.sort((a, b) => {
+            if (a.id > b.id) {
+              return 1;
+            }
+            if (a.id < b.id) {
+              return -1;
+            }
+            return 0;
+          });
+        })
+      )
       .subscribe(projects => (this.projects = projects));
   }
 
   ngOnDestroy() {
     this.destroy$.next();
   }
+  filterValueChange(type, value: string[]) {
+    switch (type) {
+      case 'project':
+        this.projectFilter.next(value);
+        break;
+      case 'team':
+        this.teamFilter.next(value);
+        break;
+      case 'user':
+        this.userFilter.next(value);
+        break;
+    }
+  }
 
   loadData(w: Week) {
-    this.reportService.weekReport(w.year, w.week).subscribe(d => {
-      this.reports = new Map<string, Report[]>();
-      for (const report of d.details) {
-        const { project } = report;
-        if (this.reports.has(project)) {
-          this.reports.get(project).push(report);
-        } else {
-          this.reports.set(project, [report]);
-        }
-      }
-    });
+    this.reportService
+      .weekReport(w.year, w.week)
+      .pipe(
+        takeUntil(this.destroy$),
+        map(resp => resp.details)
+      )
+      .subscribe(data => {
+        // do not complete this.rawReports
+        this.rawReports.next(data);
+      });
   }
 }
