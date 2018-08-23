@@ -13,7 +13,7 @@
   </mat-card-header>
   <mat-card-content>
     <div class="filter">
-      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="space-between center">
+      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="space-between start">
         <mat-form-field fxFlex="grow" class="full-width">
           <mat-select placeholder="按项目过滤" multiple [value]="projectFilter|async"
                       (valueChange)="filterValueChange('project', $event)">
@@ -38,9 +38,12 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <button mat-raised-button color="primary"
+                matTooltip="复制当前显示内容以用来在Wiki上粘贴"
+                matTooltipPosition="above" (click)="copy()">复制</button>
       </div>
     </div>
-    <div>
+    <div class="to-be-copy">
       <table class='report-table' cellspacing='0'>
         <thead>
         <tr>

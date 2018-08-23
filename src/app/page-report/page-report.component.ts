@@ -5,6 +5,7 @@ import { WeekService } from '../week.service';
 import { ProjectService } from '../project.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 
 interface Filter<T> {
   value: T;
@@ -32,7 +33,8 @@ export class PageReportComponent implements OnInit, OnDestroy {
   constructor(
     private reportService: ReportService,
     private weekService: WeekService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private snackBar: MatSnackBar
   ) {
     this.weekOptions = this.weekService.latestWeeks(99);
   }
@@ -176,5 +178,21 @@ export class PageReportComponent implements OnInit, OnDestroy {
         // do not complete this.rawReports
         this.rawReports.next(data);
       });
+  }
+  copy() {
+    const func = (e: ClipboardEvent) => {
+      e.preventDefault();
+      const el = document.querySelector('.to-be-copy');
+      if (!el) {
+        this.snackBar.open('复制失败，页面上好像没找到', '唉');
+        return;
+      }
+      e.clipboardData.setData('text/html', el.innerHTML);
+
+      this.snackBar.open('已成功复制，你可以在 wiki 页面上直接粘贴', '好的');
+    };
+    document.addEventListener('copy', func);
+    document.execCommand('copy');
+    document.removeEventListener('copy', func);
   }
 }
