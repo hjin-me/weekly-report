@@ -15,25 +15,25 @@
     <div class="filter">
       <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="space-between start">
         <mat-form-field fxFlex="grow" class="full-width">
-          <mat-select placeholder="按项目过滤" multiple [value]="projectFilter|async"
+          <mat-select placeholder="按项目过滤" multiple [value]="projectFilter$|async"
                       (valueChange)="filterValueChange('project', $event)">
-            <mat-option *ngFor="let p of existedProjectList|async" [value]="p.value.id" [disabled]="p.disable">
+            <mat-option *ngFor="let p of existedProjectList$|async" [value]="p.value.id" [disabled]="p.disable">
               <b>{{p.value.name}}</b> ({{p.value.id}})
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field fxFlex="grow">
-          <mat-select placeholder="按小组过滤" multiple [value]="teamFilter|async"
+          <mat-select placeholder="按小组过滤" multiple [value]="teamFilter$|async"
                       (valueChange)="filterValueChange('team', $event)">
-            <mat-option *ngFor="let t of teamList|async" [value]="t.value">
+            <mat-option *ngFor="let t of teamList$|async" [value]="t.value">
               {{ t.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field fxFlex="grow">
-          <mat-select placeholder="按人员过滤" multiple [value]="userFilter|async"
+          <mat-select placeholder="按人员过滤" multiple [value]="userFilter$|async"
                       (valueChange)="filterValueChange('user', $event)">
-            <mat-option *ngFor="let u of userList|async" [value]="u.value">
+            <mat-option *ngFor="let u of userList$|async" [value]="u.value">
               {{u.value}}
             </mat-option>
           </mat-select>
@@ -59,11 +59,11 @@
         </tr>
         </thead>
         <tbody>
-        <ng-container *ngFor='let v of reports | async'>
+        <ng-container *ngFor="let v of reports$ | async">
           <tr *ngFor='let report of v;first as isFirst'>
             <td *ngIf='isFirst' [attr.rowspan]="v.length">
             <span
-              [matTooltip]="report.project | project:projects"
+              [matTooltip]="report.project | project:projects$"
               [matTooltipPosition]="'right'"
             >{{report.project}}</span>
             </td>

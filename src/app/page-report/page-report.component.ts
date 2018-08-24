@@ -2,15 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Project, Report, Week } from '../project';
 import { ReportService } from '../report.service';
 import { WeekService } from '../week.service';
-import { ProjectService } from '../project.service';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
 
 interface Filter<T> {
   value: T;
   disable: boolean;
 }
+
 @Component({
   selector: 'app-page-report',
   templateUrl: './page-report.component.html',
@@ -20,32 +21,32 @@ export class PageReportComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   selectedWeek: Week;
   weekOptions: Array<Week> = [];
-  rawReports = new BehaviorSubject<Report[]>([]);
-  reports: Observable<Report[][]>;
-  projects: Project[] = [];
-  projectFilter = new BehaviorSubject<string[]>([]);
-  userFilter = new BehaviorSubject<string[]>([]);
-  teamFilter = new BehaviorSubject<string[]>([]);
-  existedProjectList: Observable<Filter<Project>[]>;
-  teamList: Observable<Filter<string>[]>;
-  userList: Observable<Filter<string>[]>;
+  rawReports$ = new BehaviorSubject<Report[]>([]);
+  reports$: Observable<Report[][]>;
+  projects$ = new BehaviorSubject<Project[]>([]);
+  projectFilter$ = new BehaviorSubject<string[]>([]);
+  userFilter$ = new BehaviorSubject<string[]>([]);
+  teamFilter$ = new BehaviorSubject<string[]>([]);
+  existedProjectList$: Observable<Filter<Project>[]>;
+  teamList$: Observable<Filter<string>[]>;
+  userList$: Observable<Filter<string>[]>;
 
   constructor(
     private reportService: ReportService,
     private weekService: WeekService,
-    private projectService: ProjectService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient
   ) {
     this.weekOptions = this.weekService.latestWeeks(99);
   }
 
   ngOnInit() {
     this.selectedWeek = this.weekOptions[0];
-    this.reports = combineLatest(
-      this.rawReports,
-      this.projectFilter,
-      this.teamFilter,
-      this.userFilter
+    this.reports$ = combineLatest(
+      this.rawReports$,
+      this.projectFilter$,
+      this.teamFilter$,
+      this.userFilter$
     ).pipe(
       takeUntil(this.destroy$),
       map(([reports, project, team, user]) => {
@@ -101,15 +102,16 @@ export class PageReportComponent implements OnInit, OnDestroy {
         return ret;
       })
     );
-    this.existedProjectList = this.rawReports.pipe(
-      map(data =>
-        this.projects.map(p => ({
+    this.existedProjectList$ = this.rawReports$.pipe(
+      withLatestFrom(this.projects$),
+      map(([data, projects]) =>
+        projects.map(p => ({
           value: p,
           disable: data.findIndex(d => d.project === p.id) === -1
         }))
       )
     );
-    this.teamList = this.rawReports.pipe(
+    this.teamList$ = this.rawReports$.pipe(
       map(data =>
         Array.from(new Set(data.map(d => d.team)))
           .sort()
@@ -119,7 +121,7 @@ export class PageReportComponent implements OnInit, OnDestroy {
           }))
       )
     );
-    this.userList = this.rawReports.pipe(
+    this.userList$ = this.rawReports$.pipe(
       map(data =>
         Array.from(new Set(data.map(d => d.reporter)))
           .sort()
@@ -130,13 +132,33 @@ export class PageReportComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.loadData(this.selectedWeek);
-    this.projectService
-      .getProjects()
+    this.http
+      .post<{
+        data: {
+          projects: Project[];
+          report: { year: number; week: number; details: Report[] };
+        };
+      }>('/x/graph', {
+        query: `query ProjectsAndReports($year: Int!, $week: Int!) {
+	      projects {
+	        id, name, tasks
+	      }
+	      report(year: $year, week: $week) {
+	        year, week,
+	        details {
+	          year, week, project, task, reporter, requester, time, info, team, problem
+	        }
+	      }
+      }`,
+        variables: {
+          ...this.selectedWeek
+        }
+      })
       .pipe(
         takeUntil(this.destroy$),
-        map(projects => {
-          return projects.sort((a, b) => {
+        map(resp => {
+          const projects = resp.data.projects;
+          projects.sort((a, b) => {
             if (a.id > b.id) {
               return 1;
             }
@@ -145,24 +167,32 @@ export class PageReportComponent implements OnInit, OnDestroy {
             }
             return 0;
           });
+          return {
+            reports: resp.data.report.details,
+            projects
+          };
         })
       )
-      .subscribe(projects => (this.projects = projects));
+      .subscribe(({ reports, projects }) => {
+        this.projects$.next(projects);
+        this.rawReports$.next(reports);
+      });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
   }
+
   filterValueChange(type, value: string[]) {
     switch (type) {
       case 'project':
-        this.projectFilter.next(value);
+        this.projectFilter$.next(value);
         break;
       case 'team':
-        this.teamFilter.next(value);
+        this.teamFilter$.next(value);
         break;
       case 'user':
-        this.userFilter.next(value);
+        this.userFilter$.next(value);
         break;
     }
   }
@@ -175,10 +205,11 @@ export class PageReportComponent implements OnInit, OnDestroy {
         map(resp => resp.details)
       )
       .subscribe(data => {
-        // do not complete this.rawReports
-        this.rawReports.next(data);
+        // do not complete this.rawReports$
+        this.rawReports$.next(data);
       });
   }
+
   copy() {
     const func = (e: ClipboardEvent) => {
       e.preventDefault();
