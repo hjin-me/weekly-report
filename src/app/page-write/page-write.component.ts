@@ -30,7 +30,11 @@ export class PageWriteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.selectedWeek = this.weekOptions[0];
+    if (new Date().getDay() < 3) {
+      this.selectedWeek = this.weekOptions[1];
+    } else {
+      this.selectedWeek = this.weekOptions[0];
+    }
 
     this.projectService
       .getProjects()

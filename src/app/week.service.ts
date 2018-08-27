@@ -27,13 +27,9 @@ export class WeekService {
   latestWeeks(n: number): Week[] {
     const d = moment();
     const ret = [];
-    let delta = 0;
-    if (new Date().getDay() < 3) {
-      delta = 1;
-    }
     for (let i = 0; i < n; i++) {
       const t = moment();
-      t.week(d.week() - i - delta);
+      t.week(d.week() - i);
       ret.push({
         year: t.year(),
         week: t.week()
