@@ -22,6 +22,7 @@ export class SessionService implements Credit {
   token: string;
   name: string;
   expire: number;
+  sessionTimeout;
   session$: BehaviorSubject<Credit | false> = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
@@ -50,6 +51,10 @@ export class SessionService implements Credit {
     if (expire <= 0) {
       return false;
     }
+    clearTimeout(this.sessionTimeout);
+    this.sessionTimeout = setTimeout(() => {
+      alert('登录已过期，请重新登录');
+    }, expire * 1000);
     this.name = info.dsp;
     this.token = jwt;
     this.mail = info.eml;
@@ -94,6 +99,10 @@ export class SessionService implements Credit {
           this.team = auth.team || 'unknown';
           this.expire = auth.expire;
           localStorage.setItem('jwt', this.token);
+          clearTimeout(this.sessionTimeout);
+          this.sessionTimeout = setTimeout(() => {
+            alert('登录已过期，请重新登录');
+          }, this.expire * 1000);
           this.obsEmit();
           return auth;
         })

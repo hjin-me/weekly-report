@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Week } from './project';
 import * as moment from 'moment';
 import 'moment/locale/zh-cn';
+
 moment.locale('zh-cn');
 
 @Injectable({
@@ -9,6 +10,7 @@ moment.locale('zh-cn');
 })
 export class WeekService {
   constructor() {}
+
   getWeekAndYear(date?: Date): Week {
     let d;
     if (date) {
@@ -21,12 +23,17 @@ export class WeekService {
       week: d.week()
     };
   }
+
   latestWeeks(n: number): Week[] {
     const d = moment();
     const ret = [];
+    let delta = 0;
+    if (new Date().getDay() < 3) {
+      delta = 1;
+    }
     for (let i = 0; i < n; i++) {
       const t = moment();
-      t.week(d.week() - i);
+      t.week(d.week() - i - delta);
       ret.push({
         year: t.year(),
         week: t.week()
