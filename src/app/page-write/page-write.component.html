@@ -20,7 +20,7 @@
             <div fxFlex="6 0 10px">
               <mat-form-field class="form-full-width">
                 <mat-select placeholder="项目编号" [(value)]="w.project" (valueChange)="checkLastWork(i)">
-                  <mat-option *ngFor="let p of projects" [value]="p.id">
+                  <mat-option *ngFor="let p of projects" [value]="p.id" [disabled]="projectDisabled(p.id)">
                     <b>{{p.name}}</b> ({{p.id}})
                   </mat-option>
                 </mat-select>
@@ -30,7 +30,7 @@
               <mat-form-field class="form-full-width">
                 <mat-select placeholder="任务模块" [(value)]="w.task" [disabled]="(w.project | task:projects).length === 0">
                   <mat-option *ngFor="let task of w.project | task:projects" [value]="task"
-                              [disabled]="task | taskExist:report:w.project">
+                              [disabled]="taskDisabled(task, w.project, w.task)">
                     {{task}}
                   </mat-option>
                 </mat-select>

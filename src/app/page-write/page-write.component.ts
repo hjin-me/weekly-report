@@ -53,6 +53,7 @@ export class PageWriteComponent implements OnInit, OnDestroy {
       });
     this.checkLastWork();
   }
+
   ngOnDestroy() {
     this.destroy$.next();
   }
@@ -75,7 +76,16 @@ export class PageWriteComponent implements OnInit, OnDestroy {
         project &&
         project.tasks.findIndex(t => t === this.report.works[index].task) === -1
       ) {
-        this.report.works[index].task = project.tasks[0];
+        const currentProject = this.report.works[index].project;
+        const existsTasks = this.report.works
+          .filter(work => work.project === currentProject)
+          .map(work => work.task);
+        const availableTasks = project.tasks.filter(
+          work => !existsTasks.includes(work)
+        );
+        if (availableTasks.length > 0) {
+          this.report.works[index].task = availableTasks[0];
+        }
       }
     }
 
@@ -144,5 +154,27 @@ export class PageWriteComponent implements OnInit, OnDestroy {
         this.checkLastWork();
       }
     });
+  }
+
+  projectDisabled(projectId: string): boolean {
+    const existTasks = this.report.works
+      .filter(work => work.project === projectId)
+      .map(work => work.task);
+    const project = this.projects.find(p => p.id === projectId);
+    if (!project) {
+      return true;
+    }
+    return project.tasks.length <= existTasks.length;
+  }
+  taskDisabled(
+    taskOption: string,
+    projectId: string,
+    currentTask: string
+  ): boolean {
+    const existTasks = this.report.works
+      .filter(work => work.project === projectId)
+      .map(work => work.task)
+      .filter(task => task !== currentTask);
+    return existTasks.findIndex(t => t === taskOption) > -1;
   }
 }

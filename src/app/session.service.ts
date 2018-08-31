@@ -54,6 +54,7 @@ export class SessionService implements Credit {
     clearTimeout(this.sessionTimeout);
     this.sessionTimeout = setTimeout(() => {
       alert('登录已过期，请重新登录');
+      this.sessionExpire();
     }, expire * 1000);
     this.name = info.dsp;
     this.token = jwt;
@@ -63,6 +64,16 @@ export class SessionService implements Credit {
     this.expire = expire;
     this.obsEmit();
     return true;
+  }
+
+  sessionExpire() {
+    this.name = '';
+    this.token = '';
+    this.mail = '';
+    this.id = '';
+    this.team = '';
+    this.expire = -1;
+    this.session$.next(false);
   }
 
   obsEmit() {
@@ -102,6 +113,7 @@ export class SessionService implements Credit {
           clearTimeout(this.sessionTimeout);
           this.sessionTimeout = setTimeout(() => {
             alert('登录已过期，请重新登录');
+            this.sessionExpire();
           }, this.expire * 1000);
           this.obsEmit();
           return auth;

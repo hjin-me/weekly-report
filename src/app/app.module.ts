@@ -32,7 +32,6 @@ import { PageReportComponent } from './page-report/page-report.component';
 import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.component';
 import { PermissionGuard } from './permission.guard';
 import { AddProjectComponent } from './add-project/add-project.component';
-import { TaskExistPipe } from './task-exist.pipe';
 import { ProjectPipe } from './project.pipe';
 
 const appRoutes: Routes = [
@@ -63,7 +62,6 @@ const appRoutes: Routes = [
     PageProjectComponent,
     NavComponent,
     TaskPipe,
-    TaskExistPipe,
     PageLoginComponent,
     PageReportComponent,
     FillTeamDialogComponent,
