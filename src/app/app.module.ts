@@ -33,6 +33,7 @@ import { FillTeamDialogComponent } from './fill-team-dialog/fill-team-dialog.com
 import { PermissionGuard } from './permission.guard';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { ProjectPipe } from './project.pipe';
+import { DeleteProjectConfirmComponent } from './delete-project-confirm/delete-project-confirm.component';
 
 const appRoutes: Routes = [
   {
@@ -66,9 +67,14 @@ const appRoutes: Routes = [
     PageReportComponent,
     FillTeamDialogComponent,
     AddProjectComponent,
-    ProjectPipe
+    ProjectPipe,
+    DeleteProjectConfirmComponent
   ],
-  entryComponents: [FillTeamDialogComponent, AddProjectComponent],
+  entryComponents: [
+    FillTeamDialogComponent,
+    AddProjectComponent,
+    DeleteProjectConfirmComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

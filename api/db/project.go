@@ -54,3 +54,11 @@ func SaveProject(project Project) error {
 	}
 	return err
 }
+
+func DeleteProject(projectId string) error {
+	_, err := db.Exec(`delete from "c"."project" where id = $1`, projectId)
+	if err != nil {
+		logex.Warningf("delete project [%s] failed. [%v]", projectId, err)
+	}
+	return err
+}

@@ -50,3 +50,21 @@ func ProjectSaveResolver(params graphql.ResolveParams) (interface{}, error) {
 	}
 	return true, nil
 }
+func ProjectDeleteResolver(params graphql.ResolveParams) (interface{}, error) {
+	name, ok := params.Context.Value("username").(string)
+	if !ok {
+		return false, nil
+	}
+	if name != "huangjin" || name != "wangchao" {
+		return false, nil
+	}
+	id, ok := params.Args["id"].(string)
+	if !ok {
+		return false, errors.New("missing id")
+	}
+	err := db.DeleteProject(id)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

@@ -17,6 +17,11 @@
             <mat-chip *ngFor="let t of p.tasks">{{t}}</mat-chip>
           </mat-chip-list>
         </div>
+        <div fxFlex="2 0 10px" *ngIf="admin$ | async">
+          <button mat-button (click)="deleteProject(p)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </div>
       <mat-divider *ngIf="!isLast"></mat-divider>
     </div>

@@ -42,4 +42,20 @@ export class ProjectService {
         })
       );
   }
+  deleteProject(project: Pick<Project, 'id'>): Observable<boolean> {
+    return this.http
+      .post<{ data: { deleteProject: boolean } }>('/x/graph', {
+        query: `mutation DeleteProject($projectId: String!) {
+          deleteProject(id: $projectId)
+        }`,
+        variables: {
+          projectId: project.id
+        }
+      })
+      .pipe(
+        map(resp => {
+          return resp.data.deleteProject;
+        })
+      );
+  }
 }
