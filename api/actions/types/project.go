@@ -3,7 +3,8 @@ package types
 import (
 	"errors"
 	"git.avlyun.org/inf/weekly/api/db"
-	"github.com/graphql-go/graphql"
+  "git.avlyun.org/inf/weekly/api/logex"
+  "github.com/graphql-go/graphql"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -55,7 +56,8 @@ func ProjectDeleteResolver(params graphql.ResolveParams) (interface{}, error) {
 	if !ok {
 		return false, nil
 	}
-	if name != "huangjin" || name != "wangchao" {
+	if name != "huangjin" && name != "wangchao" {
+	  logex.Warningf("some user [%s] try delete project", name)
 		return false, nil
 	}
 	id, ok := params.Args["id"].(string)
