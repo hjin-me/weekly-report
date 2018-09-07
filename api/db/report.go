@@ -6,16 +6,16 @@ import (
 )
 
 type ReportRow struct {
-	Year      int     `json:"year"`
-	Week      int     `json:"week"`
-	Project   string  `json:"project"`
-	Task      string  `json:"task"`
-	Team      string  `json:"team"`
-	Reporter  string  `json:"reporter"`
-	Requester string  `json:"requester"`
-	Time      float32 `json:"time"`
-	Info      string  `json:"info"`
-	Problem   string  `json:"problem"`
+	Year      int    `json:"year"`
+	Week      int    `json:"week"`
+	Project   string `json:"project"`
+	Task      string `json:"task"`
+	Team      string `json:"team"`
+	Reporter  string `json:"reporter"`
+	Requester string `json:"requester"`
+	Time      int    `json:"time"`
+	Info      string `json:"info"`
+	Problem   string `json:"problem"`
 }
 
 type Report struct {
@@ -62,10 +62,10 @@ func QueryWeekReport(year, week int) (collections []ReportRow, err error) {
 	return collections, nil
 }
 
-func sumTime(time []int) float32 {
+func sumTime(time []int) int {
 	var total int
 	for _, t := range time {
 		total += t
 	}
-	return float32(total) / 8
+	return total
 }
