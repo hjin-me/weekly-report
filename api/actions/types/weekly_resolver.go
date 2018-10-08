@@ -21,7 +21,7 @@ func SaveWeeklyResolver(params graphql.ResolveParams) (interface{}, error) {
 	}
 	force := params.Args["force"].(bool)
 	year, week := time.Now().ISOWeek()
-	if math.Abs(float64(week-weekly.Week.Week+(year-weekly.Week.Year)*53)) > 1 && !force {
+	if math.Abs(float64(week-weekly.Week.Week+(year-weekly.Week.Year)*53)) > 3 && !force {
 		logex.Debugf("cant modify old weekly [%d %d] [%d %d]", year, week, weekly.Week.Year, weekly.Week.Week)
 		return nil, errors.New("out of date limit")
 	}

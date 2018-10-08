@@ -34,6 +34,7 @@ import { PermissionGuard } from './permission.guard';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { ProjectPipe } from './project.pipe';
 import { DeleteProjectConfirmComponent } from './delete-project-confirm/delete-project-confirm.component';
+import { WeekToDatePipe } from './week-to-date.pipe';
 
 const appRoutes: Routes = [
   {
@@ -68,7 +69,8 @@ const appRoutes: Routes = [
     FillTeamDialogComponent,
     AddProjectComponent,
     ProjectPipe,
-    DeleteProjectConfirmComponent
+    DeleteProjectConfirmComponent,
+    WeekToDatePipe
   ],
   entryComponents: [
     FillTeamDialogComponent,
