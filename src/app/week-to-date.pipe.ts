@@ -12,7 +12,7 @@ export class WeekToDatePipe implements PipeTransform {
     d.week(value.week);
     const r = [];
     r.push(d.format('YYYY/MM/DD'));
-    d.add(7, 'd');
+    d.add(6, 'd');
     r.push(d.format('YYYY/MM/DD'));
     return r.join(' ~ ');
   }
