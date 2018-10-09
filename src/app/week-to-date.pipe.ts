@@ -10,6 +10,7 @@ export class WeekToDatePipe implements PipeTransform {
     const d = moment();
     d.year(value.year);
     d.week(value.week);
+    d.day(1);
     const r = [];
     r.push(d.format('YYYY/MM/DD'));
     d.add(6, 'd');
