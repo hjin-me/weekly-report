@@ -2,12 +2,13 @@ package db
 
 import (
 	"database/sql"
-	"os"
+  "git.avlyun.org/inf/go-pkg/logex"
+  "os"
 	"sync"
 
 	"encoding/json"
 	"fmt"
-	"git.avlyun.org/inf/weekly/api/logex"
+
 	_ "github.com/lib/pq"
 )
 

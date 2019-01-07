@@ -8,6 +8,7 @@ RUN go build -v -o /go/bin/app ./api/app.go
 FROM alpine:3.7
 ENV PROJECT_NAME weekly-report
 ENV GIN_MODE release
+ENV LOG_MODE production
 COPY ./dist/weekly-report /var/www/static/weekly-report
 RUN ls -al /var/www/static
 COPY --from=goBuilder /go/bin/app /usr/local/bin/app

@@ -3,10 +3,11 @@
 package static
 
 import (
-	"os"
+  "git.avlyun.org/inf/go-pkg/logex"
+  "os"
 	"path"
 
-	"git.avlyun.org/inf/weekly/api/logex"
+
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"io/ioutil"

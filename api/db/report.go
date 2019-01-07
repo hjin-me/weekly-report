@@ -2,7 +2,7 @@ package db
 
 import (
 	"encoding/json"
-	"git.avlyun.org/inf/weekly/api/logex"
+  "git.avlyun.org/inf/go-pkg/logex"
 )
 
 type ReportRow struct {

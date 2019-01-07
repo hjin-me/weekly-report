@@ -3,7 +3,8 @@
 package static
 
 import (
-	"html/template"
+  "git.avlyun.org/inf/go-pkg/logex"
+  "html/template"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -11,7 +12,7 @@ import (
 
 	"bytes"
 	"fmt"
-	"git.avlyun.org/inf/weekly/api/logex"
+
 	"github.com/gin-gonic/gin"
 	"strings"
 )

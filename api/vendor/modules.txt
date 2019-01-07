@@ -1,0 +1,50 @@
+# git.avlyun.org/inf/go-pkg v0.1.0
+git.avlyun.org/inf/go-pkg/logex
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
+# github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7
+github.com/gin-contrib/sse
+# github.com/gin-gonic/gin v1.3.0
+github.com/gin-gonic/gin
+github.com/gin-gonic/gin/binding
+github.com/gin-gonic/gin/json
+github.com/gin-gonic/gin/render
+# github.com/golang/protobuf v1.2.0
+github.com/golang/protobuf/proto
+# github.com/graphql-go/graphql v0.7.7
+github.com/graphql-go/graphql
+github.com/graphql-go/graphql/gqlerrors
+github.com/graphql-go/graphql/language/ast
+github.com/graphql-go/graphql/language/kinds
+github.com/graphql-go/graphql/language/parser
+github.com/graphql-go/graphql/language/printer
+github.com/graphql-go/graphql/language/source
+github.com/graphql-go/graphql/language/visitor
+github.com/graphql-go/graphql/language/location
+github.com/graphql-go/graphql/language/lexer
+github.com/graphql-go/graphql/language/typeInfo
+# github.com/json-iterator/go v1.1.5
+github.com/json-iterator/go
+# github.com/lib/pq v1.0.0
+github.com/lib/pq
+github.com/lib/pq/oid
+# github.com/mattn/go-isatty v0.0.4
+github.com/mattn/go-isatty
+# github.com/mitchellh/mapstructure v1.1.2
+github.com/mitchellh/mapstructure
+# github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v1.0.1
+github.com/modern-go/reflect2
+# github.com/ugorji/go/codec v0.0.0-20181209151446-772ced7fd4c2
+github.com/ugorji/go/codec
+# golang.org/x/sys v0.0.0-20190106192425-1775db3f06b5 => github.com/golang/sys v0.0.0-20190106192425-1775db3f06b5
+golang.org/x/sys/unix
+# gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d
+gopkg.in/asn1-ber.v1
+# gopkg.in/go-playground/validator.v8 v8.18.2
+gopkg.in/go-playground/validator.v8
+# gopkg.in/ldap.v2 v2.5.1
+gopkg.in/ldap.v2
+# gopkg.in/yaml.v2 v2.2.2
+gopkg.in/yaml.v2

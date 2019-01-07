@@ -2,8 +2,9 @@ package types
 
 import (
 	"errors"
-	"git.avlyun.org/inf/weekly/api/db"
-  "git.avlyun.org/inf/weekly/api/logex"
+  "git.avlyun.org/inf/go-pkg/logex"
+  "git.avlyun.org/inf/weekly/api/db"
+
   "github.com/graphql-go/graphql"
 	"github.com/mitchellh/mapstructure"
 )

@@ -3,8 +3,9 @@ package actions
 import (
 	"context"
 	"encoding/json"
-	"git.avlyun.org/inf/weekly/api/actions/types"
-	"git.avlyun.org/inf/weekly/api/logex"
+  "git.avlyun.org/inf/go-pkg/logex"
+  "git.avlyun.org/inf/weekly/api/actions/types"
+
 	"github.com/gin-gonic/gin"
 	"github.com/graphql-go/graphql"
 	"io/ioutil"

@@ -3,9 +3,10 @@ package types
 import (
 	"errors"
 	"fmt"
-	"git.avlyun.org/inf/weekly/api/db"
-	"git.avlyun.org/inf/weekly/api/logex"
-	"github.com/dgrijalva/jwt-go"
+  "git.avlyun.org/inf/go-pkg/logex"
+  "git.avlyun.org/inf/weekly/api/db"
+
+  "github.com/dgrijalva/jwt-go"
 	"github.com/graphql-go/graphql"
 	"gopkg.in/ldap.v2"
 	"net/http"

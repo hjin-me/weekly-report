@@ -1,6 +1,11 @@
+// Custom Writer use SetOutput
+// Custom Level use SetLogLevel
+// handle log fatal use SetCancel
 package logex
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -28,6 +33,7 @@ var (
 )
 var color bool
 var logLevel Level = Lmax
+var cancel context.CancelFunc
 
 const (
 	Lnone Level = iota
@@ -43,7 +49,7 @@ const (
 var flag int
 
 func init() {
-	if os.Getenv("GIN_MODE") != "release" {
+	if os.Getenv("LOG_MODE") != "production" {
 		color = true
 		SetLogLevel(Ldebug)
 		flag = log.Ldate | log.Ltime | log.Llongfile
@@ -57,6 +63,9 @@ func init() {
 	loggerOut = log.New(os.Stdout, "", flag)
 
 	loggerErr = log.New(os.Stderr, "", flag)
+	cancel = func() {
+		panic(errors.New("write log failed, but no context cancel"))
+	}
 }
 func SetOutput(out, err io.Writer) {
 	loggerOut = log.New(out, "", flag)
@@ -67,32 +76,37 @@ func output(level Level, callDepth int, v ...interface{}) {
 	if level > logLevel {
 		return
 	}
+	var err error
 	if color {
 		switch level {
 		case Lfatal:
-			loggerErr.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;41m", "FATAL:", "\033[0m", fmt.Sprint(v...)))
+			err = loggerErr.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;41m", "FATAL:", "\033[0m", fmt.Sprint(v...)))
 		case Lerror:
-			loggerErr.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;31m", "ERROR:", "\033[0m", fmt.Sprint(v...)))
+			err = loggerErr.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;31m", "ERROR:", "\033[0m", fmt.Sprint(v...)))
 		case Lwarning:
-			loggerOut.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;33m", "WARNING:", "\033[0m", fmt.Sprint(v...)))
+			err = loggerOut.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;33m", "WARNING:", "\033[0m", fmt.Sprint(v...)))
 		case Linfo:
-			loggerOut.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;36m", "INFO:", "\033[0m", fmt.Sprint(v...)))
+			err = loggerOut.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;36m", "INFO:", "\033[0m", fmt.Sprint(v...)))
 		case Ldebug:
-			loggerOut.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;39m", "DEBUG:", "\033[0m", fmt.Sprint(v...)))
+			err = loggerOut.Output(callDepth, fmt.Sprintf("%s%s%s %s", "\033[0;32m", "DEBUG:", "\033[0m", fmt.Sprint(v...)))
 		}
 	} else {
 		switch level {
 		case Lfatal:
-			loggerErr.Output(callDepth, fmt.Sprintf("%s %s", "FATAL:", fmt.Sprint(v...)))
+			err = loggerErr.Output(callDepth, fmt.Sprintf("%s %s", "FATAL:", fmt.Sprint(v...)))
 		case Lerror:
-			loggerErr.Output(callDepth, fmt.Sprintf("%s %s", "ERROR:", fmt.Sprint(v...)))
+			err = loggerErr.Output(callDepth, fmt.Sprintf("%s %s", "ERROR:", fmt.Sprint(v...)))
 		case Lwarning:
-			loggerOut.Output(callDepth, fmt.Sprintf("%s %s", "WARNING:", fmt.Sprint(v...)))
+			err = loggerOut.Output(callDepth, fmt.Sprintf("%s %s", "WARNING:", fmt.Sprint(v...)))
 		case Linfo:
-			loggerOut.Output(callDepth, fmt.Sprintf("%s %s", "INFO:", fmt.Sprint(v...)))
+			err = loggerOut.Output(callDepth, fmt.Sprintf("%s %s", "INFO:", fmt.Sprint(v...)))
 		case Ldebug:
-			loggerOut.Output(callDepth, fmt.Sprintf("%s %s", "DEBUG:", fmt.Sprint(v...)))
+			err = loggerOut.Output(callDepth, fmt.Sprintf("%s %s", "DEBUG:", fmt.Sprint(v...)))
 		}
+	}
+	if err != nil {
+		fmt.Printf("%s %v", "FATAL:", err)
+		cancel()
 	}
 }
 func outputf(level Level, format string, v ...interface{}) {
@@ -101,17 +115,20 @@ func outputf(level Level, format string, v ...interface{}) {
 func SetLogLevel(level Level) {
 	logLevel = level
 }
+// When Log write failed, it will call cancel.
+// context.Context should be Done. others goroutine should finish their jobs and exit safety.
+func SetCancel(fn context.CancelFunc) {
+	cancel = fn
+}
 
 // Fatalf is equivalent to Printf() for FATAL-level log.
 func Fatalf(format string, v ...interface{}) {
 	outputf(Lfatal, format, v...)
-	os.Exit(1)
 }
 
 // Fatal is equivalent to Print() for FATAL-level log.
 func Fatal(v ...interface{}) {
 	output(Lfatal, 3, v...)
-	os.Exit(1)
 }
 
 // Errorf is equivalent to Printf() for Error-level log.
