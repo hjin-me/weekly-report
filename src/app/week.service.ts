@@ -29,7 +29,7 @@ export class WeekService {
     const ret = [];
     for (let i = 0; i < n; i++) {
       const t = moment();
-      t.week(d.week() - i);
+      t.week(d.week() - i).endOf('week');
       ret.push({
         year: t.year(),
         week: t.week()
